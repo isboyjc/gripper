@@ -1,0 +1,192 @@
+@import "tailwindcss";
+
+/* ===== ShadCN 标准主题变量 ===== */
+@theme inline {
+  /* Colors */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  /* Gripper 扩展色 */
+  --color-success: hsl(var(--success));
+  --color-success-foreground: hsl(var(--success-foreground));
+  --color-warning: hsl(var(--warning));
+  --color-warning-foreground: hsl(var(--warning-foreground));
+  --color-info: hsl(var(--info));
+  --color-info-foreground: hsl(var(--info-foreground));
+  --color-highlight: hsl(var(--highlight));
+  --color-highlight-foreground: hsl(var(--highlight-foreground));
+
+  /* 盒模型可视化色 */
+  --color-box-margin: hsl(var(--box-margin));
+  --color-box-border: hsl(var(--box-border));
+  --color-box-padding: hsl(var(--box-padding));
+  --color-box-content: hsl(var(--box-content));
+
+  /* 工具栏 */
+  --color-toolbar: hsl(var(--toolbar));
+  --color-toolbar-foreground: hsl(var(--toolbar-foreground));
+  --color-toolbar-border: hsl(var(--toolbar-border));
+  --color-toolbar-hover: hsl(var(--toolbar-hover));
+  --color-toolbar-active: hsl(var(--toolbar-active));
+
+  /* 侧边栏 */
+  --color-sidebar: hsl(var(--sidebar));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+
+  /* Radius */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* ===== CSS 变量定义 ===== */
+:root {
+  /* ShadCN 标准变量 - 亮色模式 */
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 3.9%;
+  --primary: 240 5.9% 10%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  --accent: 240 4.8% 95.9%;
+  --accent-foreground: 240 5.9% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 240 5.9% 10%;
+  --radius: 0.5rem;
+
+  /* Gripper 扩展变量 - 亮色模式 */
+  --success: 142 76% 36%;
+  --success-foreground: 0 0% 100%;
+  --warning: 38 92% 50%;
+  --warning-foreground: 0 0% 0%;
+  --info: 199 89% 48%;
+  --info-foreground: 0 0% 100%;
+  --highlight: 199 89% 48%;
+  --highlight-foreground: 0 0% 100%;
+
+  /* 盒模型 */
+  --box-margin: 38 92% 50%;
+  --box-border: 240 3.8% 46.1%;
+  --box-padding: 142 76% 36%;
+  --box-content: 199 89% 48%;
+
+  /* 工具栏 */
+  --toolbar: 0 0% 100%;
+  --toolbar-foreground: 240 10% 3.9%;
+  --toolbar-border: 240 5.9% 90%;
+  --toolbar-hover: 240 4.8% 95.9%;
+  --toolbar-active: 240 4.8% 92%;
+
+  /* 侧边栏 */
+  --sidebar: 0 0% 100%;
+  --sidebar-foreground: 240 10% 3.9%;
+  --sidebar-border: 240 5.9% 90%;
+}
+
+/* ===== 暗色模式 ===== */
+.dark {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 240 5.9% 10%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 240 4.9% 83.9%;
+
+  /* Gripper 扩展变量 - 暗色模式 */
+  --success: 142 70% 45%;
+  --success-foreground: 0 0% 100%;
+  --warning: 38 92% 50%;
+  --warning-foreground: 0 0% 0%;
+  --info: 199 89% 48%;
+  --info-foreground: 0 0% 100%;
+  --highlight: 199 89% 48%;
+  --highlight-foreground: 0 0% 100%;
+
+  /* 盒模型 */
+  --box-margin: 38 92% 50%;
+  --box-border: 240 5% 64.9%;
+  --box-padding: 142 70% 45%;
+  --box-content: 199 89% 48%;
+
+  /* 工具栏 */
+  --toolbar: 240 6% 10%;
+  --toolbar-foreground: 0 0% 98%;
+  --toolbar-border: 240 3.7% 20%;
+  --toolbar-hover: 240 3.7% 15.9%;
+  --toolbar-active: 240 3.7% 20%;
+
+  /* 侧边栏 */
+  --sidebar: 240 6% 10%;
+  --sidebar-foreground: 0 0% 98%;
+  --sidebar-border: 240 3.7% 20%;
+}
+
+/* ===== 基础样式 ===== */
+* {
+  border-color: hsl(var(--border));
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+/* ===== 自定义滚动条 ===== */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
