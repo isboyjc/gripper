@@ -385,8 +385,18 @@ export function App({ shadowRoot }: AppProps) {
     elementPathRef.current = []
     pathIndexRef.current = -1
     setSidePanelOpen(false)
+    
+    // 获取当前 tab ID 并通知 background 更新状态和图标
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
+    if (tab?.id) {
+      chrome.runtime.sendMessage({ 
+        type: 'TOGGLE_EXTENSION', 
+        tabId: tab.id, 
+        payload: false 
+      })
+    }
+    
     chrome.runtime.sendMessage({ type: 'CLOSE_SIDE_PANEL' })
-    await chrome.storage.local.set({ enabled: false })
     setEnabled(false)
   }, [setEnabled, setSidePanelOpen])
 
