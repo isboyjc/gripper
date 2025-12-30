@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import webExtension from 'vite-plugin-web-extension'
 import path from 'path'
+import { readFileSync } from 'fs'
 
 // 浏览器类型
 type Browser = 'chrome' | 'firefox' | 'edge'
@@ -10,8 +11,9 @@ type Browser = 'chrome' | 'firefox' | 'edge'
 // 获取目标浏览器
 const browser = (process.env.BROWSER || 'chrome') as Browser
 
-// 版本号
-const version = '0.1.0'
+// 从 package.json 读取版本号
+const packageJson = JSON.parse(readFileSync(path.resolve(__dirname, 'package.json'), 'utf-8'))
+const version = packageJson.version || '1.0.0'
 
 // 通用 manifest 配置
 const commonManifest = {
