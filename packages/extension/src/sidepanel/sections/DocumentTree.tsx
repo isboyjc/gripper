@@ -1,6 +1,7 @@
 import { ChevronRight, ChevronUp, ChevronDown } from 'lucide-react'
 import { CollapsibleSection } from '../components'
 import { cn } from '@/lib/utils'
+import type { I18nMessages } from '@/i18n'
 
 interface DocumentNode {
   tagName: string
@@ -20,6 +21,7 @@ interface DocumentTreeProps {
   onSelectChild?: () => void
   canSelectParent?: boolean
   canSelectChild?: boolean
+  t?: I18nMessages['toolbar']
 }
 
 /**
@@ -79,17 +81,18 @@ function NodeItem({
 /**
  * 文档树组件 - 展示选中元素的DOM层级
  */
-export function DocumentTree({ 
+export function DocumentTree({
   title = 'Document',
-  selector, 
+  selector,
   ancestors = [],
   children = [],
-  expanded, 
+  expanded,
   onToggle,
   onSelectParent,
   onSelectChild,
   canSelectParent = false,
   canSelectChild = false,
+  t,
 }: DocumentTreeProps) {
   // 解析当前选择器
   const parts = selector.split(/(?=[.#])/)
@@ -117,7 +120,7 @@ export function DocumentTree({
                 ? 'hover:bg-accent text-muted-foreground hover:text-foreground' 
                 : 'text-muted-foreground/30 cursor-not-allowed'
             )}
-            title="选择父级"
+            title={t?.selectParent || 'Select Parent'}
           >
             <ChevronUp size={14} />
           </button>
@@ -127,11 +130,11 @@ export function DocumentTree({
             disabled={!canSelectChild}
             className={cn(
               'p-1 rounded transition-colors',
-              canSelectChild 
-                ? 'hover:bg-accent text-muted-foreground hover:text-foreground' 
+              canSelectChild
+                ? 'hover:bg-accent text-muted-foreground hover:text-foreground'
                 : 'text-muted-foreground/30 cursor-not-allowed'
             )}
-            title="选择子级"
+            title={t?.selectChild || 'Select Child'}
           >
             <ChevronDown size={14} />
           </button>

@@ -40,6 +40,36 @@ function getElementRect(element: Element): ElementRect {
   const rect = element.getBoundingClientRect()
   const scrollX = window.scrollX
   const scrollY = window.scrollY
+
+  // 获取元素的实际可见区域（考虑overflow: hidden）
+  const computed = window.getComputedStyle(element)
+  const overflow = computed.overflow
+  const overflowX = computed.overflowX
+  const overflowY = computed.overflowY
+
+  // 如果元素有overflow hidden/clip/scroll，框选可见区域而不是完整的bounding区域
+  const hasOverflow = overflow === 'hidden' || overflow === 'clip' || overflow === 'scroll' ||
+                      overflowX === 'hidden' || overflowX === 'clip' || overflowX === 'scroll' ||
+                      overflowY === 'hidden' || overflowY === 'clip' || overflowY === 'scroll'
+
+  if (hasOverflow) {
+    // 使用clientWidth/clientHeight获取可见内容区域（包含padding，不包含溢出部分和border）
+    const borderLeft = parseFloat(computed.borderLeftWidth) || 0
+    const borderTop = parseFloat(computed.borderTopWidth) || 0
+    const width = element.clientWidth
+    const height = element.clientHeight
+
+    // 计算框选位置：从border内侧开始（排除border）
+    return {
+      top: rect.top + scrollY + borderTop,
+      left: rect.left + scrollX + borderLeft,
+      width: width,
+      height: height,
+      right: rect.left + scrollX + borderLeft + width,
+      bottom: rect.top + scrollY + borderTop + height,
+    }
+  }
+
   return {
     top: rect.top + scrollY,
     left: rect.left + scrollX,
@@ -152,7 +182,7 @@ export function ElementHighlight({ hoveredElement, selectedElement }: ElementHig
         <>
           <GuideLines rect={selectRect} viewportSize={viewportSize} />
           {selectBoxModel && <MarginPaddingOverlay rect={selectRect} boxModel={selectBoxModel} />}
-          <SelectHighlight rect={selectRect} element={selectedElement} edgeDistances={edgeDistances} />
+          <SelectHighlight rect={selectRect} edgeDistances={edgeDistances} />
         </>
       )}
       {hoverRect && hoveredElement && (
@@ -220,8 +250,7 @@ function HoverHighlight({ rect, element, boxModel }: { rect: ElementRect; elemen
   )
 }
 
-function SelectHighlight({ rect, element, edgeDistances }: { rect: ElementRect; element: Element; edgeDistances: { top: number; right: number; bottom: number; left: number } | null }) {
-  const selector = getSelector(element)
+function SelectHighlight({ rect, edgeDistances }: { rect: ElementRect; edgeDistances: { top: number; right: number; bottom: number; left: number } | null }) {
   const stripePattern = `repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(239, 68, 68, 0.15) 2px, rgba(239, 68, 68, 0.15) 4px)`
 
   return (
@@ -231,10 +260,6 @@ function SelectHighlight({ rect, element, edgeDistances }: { rect: ElementRect; 
         pointerEvents: 'none', zIndex: 2147483644,
         border: `1px solid ${COLORS.selectBorder}`, backgroundImage: stripePattern, boxSizing: 'border-box',
       }} />
-      {/* 元素名标签 - 贴合左上角边框 */}
-      <div style={{ ...labelBaseStyle, top: rect.top, left: rect.left, maxWidth: Math.min(Math.max(rect.width, 180), 320), backgroundColor: COLORS.selectLabelBg, transform: 'translateY(-100%)' }}>
-        {selector}
-      </div>
       {/* 尺寸标签 - 贴合右下角边框，红色背景 */}
       <div style={{ ...sizeBaseStyle, top: rect.bottom, left: rect.right, backgroundColor: COLORS.selectLabelBg, transform: 'translate(-100%, 0)' }}>
         {Math.round(rect.width)} × {Math.round(rect.height)}

@@ -1,6 +1,7 @@
 import { Copy, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard'
+import type { I18nMessages } from '@/i18n'
 
 interface CopyButtonProps {
   /** 要复制的文本 */
@@ -9,12 +10,14 @@ interface CopyButtonProps {
   className?: string
   /** 图标大小 */
   size?: number
+  /** i18n translations */
+  t?: I18nMessages['sidepanel']
 }
 
 /**
  * 复制按钮组件
  */
-export function CopyButton({ text, className, size = 14 }: CopyButtonProps) {
+export function CopyButton({ text, className, size = 14, t }: CopyButtonProps) {
   const { copied, copy } = useCopyToClipboard()
 
   return (
@@ -28,7 +31,7 @@ export function CopyButton({ text, className, size = 14 }: CopyButtonProps) {
         'transition-colors',
         className
       )}
-      title={copied ? '已复制' : '复制'}
+      title={copied ? (t?.copied || 'Copied') : (t?.copy || 'Copy')}
     >
       {copied ? (
         <Check size={size} className="text-success" />

@@ -8,6 +8,8 @@ export type ToolId =
   | 'inspect-all'
   | 'search'
   | 'eyedropper'
+  | 'screenshot'
+  | 'layout-visualizer'
   | 'sidepanel'
   | 'pause'
   | 'minimize'
@@ -70,11 +72,12 @@ export interface TypographyInfo {
  * 资源信息
  */
 export interface AssetInfo {
-  type: 'image' | 'svg' | 'video' | 'font'
+  type: 'image' | 'svg' | 'video' | 'audio' | 'font'
   url: string
   size?: { width: number; height: number }
   fileSize?: number
   content?: string // SVG 内容或 data URL
+  selector?: string // 元素选择器，用于定位
 }
 
 /**
@@ -117,6 +120,9 @@ export type MessageType =
   | 'ELEMENT_SELECTED'
   | 'THEME_CHANGE'
   | 'SETTINGS_UPDATE'
+  | 'TAKE_SCREENSHOT'
+  | 'CAPTURE_SCREENSHOT'
+  | 'DOWNLOAD_SCREENSHOT'
 
 /**
  * 消息结构
@@ -130,3 +136,13 @@ export interface Message {
  * 颜色格式
  */
 export type ColorFormat = 'HEX/HEXA' | 'RGB/RGBA' | 'HSL/HSLA'
+
+/**
+ * 截图设置
+ */
+export interface ScreenshotSettings {
+  showWatermark: boolean      // 是否显示水印
+  includeTimestamp: boolean   // 水印是否包含时间
+  expandCaptureArea: boolean  // 是否扩展截图区域
+  showGridOverlay: boolean    // 是否显示网格覆盖
+}

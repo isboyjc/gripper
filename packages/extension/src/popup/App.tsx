@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback } from 'react'
-import { Power, Moon, Sun, Monitor, ExternalLink, Globe } from 'lucide-react'
+import { Power, Moon, Sun, Monitor, ExternalLink, Globe, Camera, ChevronDown } from 'lucide-react'
 import type { Locale } from '@/i18n'
 import { getMessages, detectLocale } from '@/i18n'
+import { useScreenshotStore } from '@/stores/screenshotStore'
 
 type ThemeMode = 'light' | 'dark' | 'system'
 
@@ -20,7 +21,9 @@ export function App() {
     currentTabId: null,
   })
   const [currentTheme, setCurrentTheme] = useState<'light' | 'dark'>('dark')
+  const [isScreenshotSettingsExpanded, setIsScreenshotSettingsExpanded] = useState(false)
 
+  const screenshotSettings = useScreenshotStore()
   const t = getMessages(state.locale)
 
   // 获取当前 tab 的状态
@@ -209,8 +212,108 @@ export function App() {
           <span style={{ fontSize: '12px', color: isDark ? '#71717a' : '#a1a1aa' }}>{state.locale === 'en' ? 'English' : '中文'}</span>
         </button>
 
-        <button 
-          onClick={() => chrome.tabs.create({ url: 'https://gripper.isboyjc.com' })}
+        {/* 截图设置折叠面板 */}
+        <div style={{ marginTop: '2px' }}>
+          <button
+            onClick={() => setIsScreenshotSettingsExpanded(!isScreenshotSettingsExpanded)}
+            style={btnStyle}
+            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = isDark ? 'rgba(63, 63, 70, 0.3)' : 'rgba(244, 244, 245, 0.8)' }}
+            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent' }}
+          >
+            <Camera size={16} style={{ color: isDark ? '#a1a1aa' : '#71717a' }} />
+            <span style={{ flex: 1 }}>{t.popup.screenshotSettings}</span>
+            <ChevronDown
+              size={14}
+              style={{
+                color: isDark ? '#71717a' : '#a1a1aa',
+                transform: isScreenshotSettingsExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 200ms ease'
+              }}
+            />
+          </button>
+
+          {isScreenshotSettingsExpanded && (
+            <div style={{
+              padding: '8px 14px 12px 42px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '8px'
+            }}>
+              <label style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                fontSize: '12px',
+                cursor: 'pointer',
+                color: isDark ? '#d4d4d8' : '#3f3f46'
+              }}>
+                <input
+                  type="checkbox"
+                  checked={screenshotSettings.showWatermark}
+                  onChange={(e) => screenshotSettings.setShowWatermark(e.target.checked)}
+                  style={{ cursor: 'pointer' }}
+                />
+                <span>{t.popup.showWatermark}</span>
+              </label>
+
+              <label style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                fontSize: '12px',
+                cursor: 'pointer',
+                color: isDark ? '#d4d4d8' : '#3f3f46',
+                opacity: screenshotSettings.showWatermark ? 1 : 0.5
+              }}>
+                <input
+                  type="checkbox"
+                  checked={screenshotSettings.includeTimestamp}
+                  onChange={(e) => screenshotSettings.setIncludeTimestamp(e.target.checked)}
+                  disabled={!screenshotSettings.showWatermark}
+                  style={{ cursor: screenshotSettings.showWatermark ? 'pointer' : 'not-allowed' }}
+                />
+                <span>{t.popup.includeTimestamp}</span>
+              </label>
+
+              <label style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                fontSize: '12px',
+                cursor: 'pointer',
+                color: isDark ? '#d4d4d8' : '#3f3f46'
+              }}>
+                <input
+                  type="checkbox"
+                  checked={screenshotSettings.expandCaptureArea}
+                  onChange={(e) => screenshotSettings.setExpandCaptureArea(e.target.checked)}
+                  style={{ cursor: 'pointer' }}
+                />
+                <span>{t.popup.expandCaptureArea}</span>
+              </label>
+
+              <label style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                fontSize: '12px',
+                cursor: 'pointer',
+                color: isDark ? '#d4d4d8' : '#3f3f46'
+              }}>
+                <input
+                  type="checkbox"
+                  checked={screenshotSettings.showGridOverlay}
+                  onChange={(e) => screenshotSettings.setShowGridOverlay(e.target.checked)}
+                  style={{ cursor: 'pointer' }}
+                />
+                <span>{t.popup.showGridOverlay}</span>
+              </label>
+            </div>
+          )}
+        </div>
+
+        <button
+          onClick={() => chrome.tabs.create({ url: 'https://github.com/isboyjc/gripper' })}
           style={btnStyle}
           onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = isDark ? 'rgba(63, 63, 70, 0.3)' : 'rgba(244, 244, 245, 0.8)' }}
           onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent' }}
@@ -223,7 +326,7 @@ export function App() {
       {/* 底部 */}
       <div style={{ padding: '8px 16px', borderTop: `1px solid ${borderColor}` }}>
         <p style={{ margin: 0, fontSize: '11px', color: isDark ? '#52525b' : '#a1a1aa', textAlign: 'center' }}>
-          {t.popup.version} 0.1.0
+          {t.popup.version} 1.0.0
         </p>
       </div>
     </div>

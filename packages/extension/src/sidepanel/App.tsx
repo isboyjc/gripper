@@ -21,6 +21,7 @@ export function App() {
   const [theme, setTheme] = useState<'light' | 'dark'>('dark')
   const [locale, setLocale] = useState<Locale>(detectLocale())
   const [elementInfo, setElementInfo] = useState<SelectedElementInfo | null>(null)
+  const [isExtensionEnabled, setIsExtensionEnabled] = useState<boolean>(true)
   const [colorFormat, setColorFormat] = useState<ColorFormat>('HEX/HEXA')
   const [expandedSections, setExpandedSections] = useState<string[]>([
     'document',
@@ -40,7 +41,9 @@ export function App() {
   const requestDefaultHtmlInfo = useCallback(() => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs[0]?.id) {
-        chrome.tabs.sendMessage(tabs[0].id, { type: 'GET_HTML_ELEMENT_INFO' })
+        chrome.tabs.sendMessage(tabs[0].id, { type: 'GET_HTML_ELEMENT_INFO' }).catch(() => {
+          // Content script not loaded or tab is on restricted page
+        })
       }
     })
   }, [])
@@ -48,30 +51,68 @@ export function App() {
   // 加载主题、语言和元素信息
   useEffect(() => {
     // 获取当前激活的 tab ID
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      const tabId = tabs[0]?.id
-      if (tabId) {
-        currentTabIdRef.current = tabId
-        const storageKey = `selectedElementInfo_${tabId}`
+    const loadTabInfo = () => {
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const tabId = tabs[0]?.id
+        if (tabId) {
+          currentTabIdRef.current = tabId
+          const storageKey = `selectedElementInfo_${tabId}`
 
-        // 获取初始状态
-        chrome.storage.local.get(['theme', 'locale', storageKey], (result) => {
-          if (result.theme === 'light' || result.theme === 'dark') {
-            setTheme(result.theme)
-          }
-          if (result.locale === 'en' || result.locale === 'zh') {
-            setLocale(result.locale)
-          }
-          const elementData = result[storageKey]
-          if (elementData && typeof elementData === 'object' && 'selector' in elementData) {
-            setElementInfo(elementData as SelectedElementInfo)
+          // 获取初始状态
+          chrome.storage.local.get(['theme', 'locale', storageKey], (result) => {
+            if (result.theme === 'light' || result.theme === 'dark') {
+              setTheme(result.theme)
+            }
+            if (result.locale === 'en' || result.locale === 'zh') {
+              setLocale(result.locale)
+            }
+            const elementData = result[storageKey]
+            if (elementData && typeof elementData === 'object' && 'selector' in elementData) {
+              setElementInfo(elementData as SelectedElementInfo)
+            } else {
+              // 没有选中元素，请求 html 元素信息作为默认
+              requestDefaultHtmlInfo()
+            }
+          })
+        }
+      })
+    }
+
+    loadTabInfo()
+
+    // 监听标签页切换
+    const handleTabActivated = (activeInfo: { tabId: number; windowId: number }) => {
+      const newTabId = activeInfo.tabId
+      if (newTabId !== currentTabIdRef.current) {
+        currentTabIdRef.current = newTabId
+        const storageKey = `selectedElementInfo_${newTabId}`
+
+        // 检查新标签页是否启用了插件
+        chrome.runtime.sendMessage({ type: 'GET_TAB_STATE', tabId: newTabId }, (response) => {
+          if (response?.success && response.data?.enabled) {
+            // 插件已启用，加载元素信息
+            setIsExtensionEnabled(true)
+            chrome.storage.local.get([storageKey], (result) => {
+              const elementData = result[storageKey]
+              if (elementData && typeof elementData === 'object' && 'selector' in elementData) {
+                setElementInfo(elementData as SelectedElementInfo)
+              } else {
+                // 没有选中元素，请求 html 元素信息
+                chrome.tabs.sendMessage(newTabId, { type: 'GET_HTML_ELEMENT_INFO' }).catch(() => {
+                  // Content script not loaded or tab is on restricted page
+                })
+              }
+            })
           } else {
-            // 没有选中元素，请求 html 元素信息作为默认
-            requestDefaultHtmlInfo()
+            // 插件未启用，清空显示
+            setIsExtensionEnabled(false)
+            setElementInfo(null)
           }
         })
       }
-    })
+    }
+
+    chrome.tabs.onActivated.addListener(handleTabActivated)
 
     // 监听 storage 变化
     const handleStorageChange = (
@@ -111,7 +152,10 @@ export function App() {
     }
 
     chrome.storage.onChanged.addListener(handleStorageChange)
-    return () => chrome.storage.onChanged.removeListener(handleStorageChange)
+    return () => {
+      chrome.storage.onChanged.removeListener(handleStorageChange)
+      chrome.tabs.onActivated.removeListener(handleTabActivated)
+    }
   }, [requestDefaultHtmlInfo])
 
   // 应用主题
@@ -133,7 +177,9 @@ export function App() {
   const handleSelectParent = useCallback(() => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs[0]?.id) {
-        chrome.tabs.sendMessage(tabs[0].id, { type: 'SELECT_PARENT' })
+        chrome.tabs.sendMessage(tabs[0].id, { type: 'SELECT_PARENT' }).catch(() => {
+          // Content script not loaded or tab is on restricted page
+        })
       }
     })
   }, [])
@@ -141,7 +187,9 @@ export function App() {
   const handleSelectChild = useCallback(() => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs[0]?.id) {
-        chrome.tabs.sendMessage(tabs[0].id, { type: 'SELECT_CHILD' })
+        chrome.tabs.sendMessage(tabs[0].id, { type: 'SELECT_CHILD' }).catch(() => {
+          // Content script not loaded or tab is on restricted page
+        })
       }
     })
   }, [])
@@ -152,7 +200,7 @@ export function App() {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       {/* 头部 */}
-      <PanelHeader elementInfo={elementInfo} />
+      <PanelHeader elementInfo={elementInfo} t={t.sidepanel} />
 
       {/* 滚动内容区 */}
       <div className="flex-1 overflow-y-auto custom-scrollbar">
@@ -169,6 +217,7 @@ export function App() {
               onSelectChild={handleSelectChild}
               canSelectParent={canSelectParent}
               canSelectChild={canSelectChild}
+              t={t.toolbar}
             />
             <BoxModel
               title={t.sidepanel.boxModel}
@@ -181,6 +230,7 @@ export function App() {
               styles={elementInfo.computedStyles}
               expanded={expandedSections.includes('css')}
               onToggle={() => toggleSection('css')}
+              t={t.sidepanel}
             />
             <TextContent
               title={t.sidepanel.textContent}
@@ -232,12 +282,25 @@ export function App() {
                   <path d="m13 13 6 6" />
                 </svg>
               </div>
-              <p className="text-muted-foreground text-sm">
-                {t.sidepanel.noElementSelected}
-              </p>
-              <p className="text-muted-foreground/60 text-xs mt-2">
-                {t.sidepanel.useInspector}
-              </p>
+              {isExtensionEnabled ? (
+                <>
+                  <p className="text-muted-foreground text-sm">
+                    {t.sidepanel.noElementSelected}
+                  </p>
+                  <p className="text-muted-foreground/60 text-xs mt-2">
+                    {t.sidepanel.useInspector}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-muted-foreground text-sm">
+                    {t.sidepanel.extensionNotEnabled}
+                  </p>
+                  <p className="text-muted-foreground/60 text-xs mt-2">
+                    {t.sidepanel.clickToEnable}
+                  </p>
+                </>
+              )}
             </div>
           </div>
         )}

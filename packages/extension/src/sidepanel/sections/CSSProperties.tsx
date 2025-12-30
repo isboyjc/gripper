@@ -2,12 +2,14 @@ import { Copy, Check } from 'lucide-react'
 import { CollapsibleSection } from '../components'
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard'
 import { cn } from '@/lib/utils'
+import type { I18nMessages } from '@/i18n'
 
 interface CSSPropertiesProps {
   title?: string
   styles?: Record<string, string>
   expanded: boolean
   onToggle: () => void
+  t?: I18nMessages['sidepanel']
 }
 
 /**
@@ -32,7 +34,7 @@ function CSSValue({ value }: { value: string }) {
 /**
  * CSS 属性列表组件
  */
-export function CSSProperties({ title = 'CSS', styles, expanded, onToggle }: CSSPropertiesProps) {
+export function CSSProperties({ title = 'CSS', styles, expanded, onToggle, t }: CSSPropertiesProps) {
   const { copied, copy } = useCopyToClipboard()
 
   if (!styles || Object.keys(styles).length === 0) return null
@@ -51,7 +53,7 @@ export function CSSProperties({ title = 'CSS', styles, expanded, onToggle }: CSS
           type="button"
           onClick={() => copy(cssText)}
           className="p-1 rounded hover:bg-accent"
-          title="复制所有样式"
+          title={t?.copyAllStyles || 'Copy All Styles'}
         >
           {copied ? (
             <Check size={14} className="text-success" />

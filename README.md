@@ -5,18 +5,18 @@
 </p>
 
 <p align="center">
-  <strong>A powerful browser extension for developers and designers.</strong>
+  <strong>A powerful browser extension designed for developers and designers</strong>
 </p>
 
 <p align="center">
-  Inspect elements, pick colors, analyze typography, and export assets with ease.
+  Inspect elements, pick colors, analyze typography, capture screenshots, and export assets with ease
 </p>
 
 <p align="center">
-  <a href="https://gripper.isboyjc.com">Website</a> •
   <a href="#features">Features</a> •
   <a href="#installation">Installation</a> •
   <a href="#usage">Usage</a> •
+  <a href="#keyboard-shortcuts">Shortcuts</a> •
   <a href="#development">Development</a>
 </p>
 
@@ -27,15 +27,16 @@
 | Feature | Description |
 |---------|-------------|
 | 🎯 **Element Inspector** | Click any element to view CSS properties, dimensions, and computed styles |
-| 🎨 **Color Picker** | Pick any color from the page with magnified preview, auto-copy to clipboard |
+| 🎨 **Color Picker** | Pick any color from the page with magnified preview and auto-copy to clipboard |
+| 📸 **Screenshot Tool** | Capture element screenshots with customizable watermark, timestamp, and grid overlay |
 | 🔤 **Typography Analysis** | Analyze fonts, sizes, weights, line heights, and letter spacing |
 | 📐 **Box Model Viewer** | Visualize margin, border, padding, and content with interactive display |
 | 📦 **Asset Export** | Export images, SVGs, and other assets directly with one click |
 | 🔍 **Element Search** | Search elements by tag, class, or ID with keyboard navigation |
 | 📋 **Side Panel** | View detailed element information in browser side panel |
 | ⌨️ **Keyboard Shortcuts** | Boost productivity with intuitive shortcuts for all actions |
-| 🌙 **Dark/Light Theme** | Follows system preference or manual toggle |
-| 🌍 **Multi-language** | English and Chinese (中文) support |
+| 🌙 **Dark/Light Theme** | System preference detection with manual toggle support |
+| 🌍 **Internationalization** | Full support for English and Chinese (中文) |
 | 🔒 **Per-Tab State** | Independent extension state for each browser tab |
 
 ## ⌨️ Keyboard Shortcuts
@@ -56,7 +57,9 @@
 
 ### From Browser Store
 
-> Coming soon to Chrome Web Store, Firefox Add-ons, and Edge Add-ons.
+- **Chrome Web Store**: Coming soon
+- **Firefox Add-ons**: Coming soon
+- **Edge Add-ons**: Coming soon
 
 ### Manual Installation
 
@@ -85,13 +88,31 @@
 
 ## 🚀 Usage
 
-1. Click the Gripper icon in your browser toolbar to activate
-2. Use the floating toolbar to access tools:
-   - **Inspector**: Click elements to inspect their properties
-   - **Eyedropper**: Pick colors from anywhere on the page
-   - **Search**: Find elements by tag, class, or ID
-   - **Side Panel**: View detailed information
-3. Press `Esc` to close the extension
+1. **Activate Extension**
+   - Click the Gripper icon in your browser toolbar
+   - The floating toolbar will appear on the page
+
+2. **Available Tools**
+   - **Inspector** (`V`): Click elements to inspect their CSS properties and dimensions
+   - **Eyedropper** (`I`): Pick colors from anywhere on the page with magnified preview
+   - **Element Search** (`F`): Search and navigate elements by tag, class, or ID
+   - **Inspect All** (`A`): View all elements on the page with visual overlays
+   - **Screenshot**: Capture element screenshots with customizable settings
+   - **Side Panel** (`S`): View detailed information in browser side panel
+
+3. **Screenshot Settings**
+   - Open popup to configure screenshot options:
+     - Show/hide watermark
+     - Include/exclude timestamp
+     - Expand capture area
+     - Show grid overlay
+
+4. **Theme & Language**
+   - Toggle between light/dark/system theme in popup
+   - Switch between English and Chinese languages
+
+5. **Close Extension**
+   - Press `Esc` or click the power button in popup
 
 ## 🛠️ Development
 
@@ -191,7 +212,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 **isboyjc**
 
 - GitHub: [@isboyjc](https://github.com/isboyjc)
-- Website: [gripper.isboyjc.com](https://gripper.isboyjc.com)
 
 ---
 

@@ -25,7 +25,14 @@ function init() {
   host = document.createElement('div')
   host.id = 'gripper-root'
   host.style.display = 'none' // 默认隐藏
-  
+  host.style.position = 'fixed' // 固定定位
+  host.style.top = '0'
+  host.style.left = '0'
+  host.style.width = '100%'
+  host.style.height = '100%'
+  host.style.pointerEvents = 'none' // 不阻止页面交互
+  host.style.zIndex = '2147483647' // 最大 z-index，确保在所有页面元素之上
+
   // 使用 Shadow DOM 隔离样式
   shadow = host.attachShadow({ mode: 'open' })
 
@@ -170,7 +177,7 @@ function getStyles(isDark: boolean): string {
       --border: ${colors.border};
       --primary: ${colors.primary};
       --primary-foreground: ${colors.primaryForeground};
-      
+
       /* 固定的高亮色 - 不受主题影响 */
       --highlight-red: 0 84% 60%;
       --highlight-blue: 217 91% 60%;
@@ -186,6 +193,7 @@ function getStyles(isDark: boolean): string {
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      pointer-events: auto; /* 允许交互 */
     }
 
     /* 工具栏按钮 */

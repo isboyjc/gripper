@@ -1,23 +1,27 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { Search, ChevronUp, ChevronDown, X } from 'lucide-react'
+import { getMessages } from '@/i18n'
+import type { Locale } from '@/i18n'
 
 interface ElementSearchProps {
   isActive: boolean
   onClose: () => void
   onSelectElement: (element: Element) => void
   theme: 'light' | 'dark'
+  locale?: Locale
 }
 
 interface SearchResult {
   element: Element
 }
 
-export function ElementSearch({ isActive, onClose, onSelectElement, theme }: ElementSearchProps) {
+export function ElementSearch({ isActive, onClose, onSelectElement, theme, locale = 'en' }: ElementSearchProps) {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<SearchResult[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
   const isDark = theme === 'dark'
+  const t = getMessages(locale).search
 
   // 搜索元素 - 支持组合选择器
   const searchElements = useCallback((searchQuery: string) => {
@@ -208,7 +212,7 @@ export function ElementSearch({ isActive, onClose, onSelectElement, theme }: Ele
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => e.stopPropagation()}
-          placeholder="div, #id, .class, span.text-lg"
+          placeholder={t.placeholder}
           style={inputStyle}
         />
         
@@ -222,30 +226,30 @@ export function ElementSearch({ isActive, onClose, onSelectElement, theme }: Ele
             }}>
               {currentIndex + 1} / {results.length}
             </span>
-            <button 
-              type="button" 
-              onClick={goToPrev} 
+            <button
+              type="button"
+              onClick={goToPrev}
               style={btnStyle}
-              title="上一个 (Ctrl+↑)"
+              title={`${t.previousResult} (Ctrl+↑)`}
             >
               <ChevronUp size={16} />
             </button>
-            <button 
-              type="button" 
-              onClick={goToNext} 
+            <button
+              type="button"
+              onClick={goToNext}
               style={btnStyle}
-              title="下一个 (Ctrl+↓)"
+              title={`${t.nextResult} (Ctrl+↓)`}
             >
               <ChevronDown size={16} />
             </button>
           </>
         )}
         
-        <button 
-          type="button" 
-          onClick={onClose} 
+        <button
+          type="button"
+          onClick={onClose}
           style={btnStyle}
-          title="关闭 (Esc)"
+          title={`${t.close} (Esc)`}
         >
           <X size={16} />
         </button>

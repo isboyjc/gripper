@@ -164,27 +164,41 @@ export function InspectAll({ isActive }: InspectAllProps) {
     const allElements: ElementInfo[] = []
     const elementMap = new Map<Element, number>()
     let idCounter = 0
-    
-    const selector = 'main, section, article, header, footer, nav, aside, div, form, ul, ol, table, p, h1, h2, h3, h4, h5, h6, button, a, img, span, li'
+
+    // 扩展选择器，包含更多元素类型，确保覆盖所有可见元素
+    const selector = '*'
     const nodeList = document.querySelectorAll(selector)
-    
+
     nodeList.forEach((el) => {
+      // 跳过插件自身元素
       if (el.closest('#gripper-root')) return
       if (el.closest('#gripper-responsive-wrapper')) return
-      
+
+      // 跳过 script, style, meta 等不可见标签
+      const tagName = el.tagName.toLowerCase()
+      if (['script', 'style', 'meta', 'link', 'title', 'head', 'noscript', 'br'].includes(tagName)) return
+
+      // 检查元素是否有 hidden 属性
+      if (el.hasAttribute('hidden')) return
+
       const rect = el.getBoundingClientRect()
-      if (rect.width < 20 || rect.height < 15) return
-      if (rect.top > window.innerHeight + 100 || rect.bottom < -100) return
-      if (rect.left > window.innerWidth + 100 || rect.right < -100) return
-      
+      // 放宽尺寸限制，捕获更小的元素
+      if (rect.width < 10 || rect.height < 10) return
+      // 不限制视口范围，捕获所有页面元素（包括视口外的）
+      // if (rect.top > window.innerHeight + 100 || rect.bottom < -100) return
+      // if (rect.left > window.innerWidth + 100 || rect.right < -100) return
+
       const style = window.getComputedStyle(el)
       if (style.display === 'none' || style.visibility === 'hidden' || parseFloat(style.opacity) < 0.1) return
-      
+
+      // 检查祖先元素是否有 hidden 属性
+      if (el.closest('[hidden]')) return
+
       const id = idCounter++
       elementMap.set(el, id)
-      
+
       const className = typeof el.className === 'string' ? el.className.split(' ')[0] || '' : ''
-      
+
       allElements.push({
         id,
         element: el,
@@ -209,7 +223,8 @@ export function InspectAll({ isActive }: InspectAllProps) {
       }
     })
 
-    setElements(allElements.slice(0, 80))
+    // 增加元素数量限制，确保能显示更多元素
+    setElements(allElements.slice(0, 200))
   }, [isActive])
 
   // 初始收集和滚动/resize 监听
@@ -330,7 +345,7 @@ export function InspectAll({ isActive }: InspectAllProps) {
             zIndex: 2147483642,
           }}
         >
-          {info.tagName}{info.className ? `.${info.className}` : ''} {info.width}×{info.height}
+          {info.tagName} {info.width}×{info.height}
         </div>
       ))}
       

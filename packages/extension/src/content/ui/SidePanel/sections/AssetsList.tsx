@@ -1,10 +1,12 @@
-import { Download, Image, FileCode } from 'lucide-react'
+import { Download, Image, FileCode, Video, Music } from 'lucide-react'
 import { CollapsibleSection } from '../components'
 import { cn } from '@/lib/utils'
 import type { AssetInfo } from '@/types'
+import type { I18nMessages } from '@/i18n'
 
 interface AssetsListProps {
   assets?: AssetInfo[]
+  t?: I18nMessages['sidepanel']
 }
 
 /**
@@ -14,6 +16,10 @@ function AssetIcon({ type }: { type: AssetInfo['type'] }) {
   switch (type) {
     case 'svg':
       return <FileCode size={20} className="text-info" />
+    case 'video':
+      return <Video size={20} className="text-purple-500" />
+    case 'audio':
+      return <Music size={20} className="text-orange-500" />
     case 'image':
     default:
       return <Image size={20} className="text-muted-foreground" />
@@ -23,7 +29,7 @@ function AssetIcon({ type }: { type: AssetInfo['type'] }) {
 /**
  * 单个资源项
  */
-function AssetItem({ asset }: { asset: AssetInfo }) {
+function AssetItem({ asset, t }: { asset: AssetInfo; t?: I18nMessages['sidepanel'] }) {
   const handleDownload = async () => {
     try {
       const response = await fetch(asset.url)
@@ -56,6 +62,14 @@ function AssetItem({ asset }: { asset: AssetInfo }) {
             alt=""
             className="w-full h-full object-cover"
           />
+        ) : asset.type === 'video' ? (
+          <div className="flex items-center justify-center w-full h-full bg-purple-500/10">
+            <Video size={20} className="text-purple-500" />
+          </div>
+        ) : asset.type === 'audio' ? (
+          <div className="flex items-center justify-center w-full h-full bg-orange-500/10">
+            <Music size={20} className="text-orange-500" />
+          </div>
         ) : (
           <AssetIcon type={asset.type} />
         )}
@@ -85,7 +99,7 @@ function AssetItem({ asset }: { asset: AssetInfo }) {
           'hover:bg-accent hover:text-foreground',
           'transition-colors'
         )}
-        title="下载"
+        title={t?.download || 'Download'}
       >
         <Download size={14} />
       </button>
@@ -96,7 +110,7 @@ function AssetItem({ asset }: { asset: AssetInfo }) {
 /**
  * 资源列表组件
  */
-export function AssetsList({ assets }: AssetsListProps) {
+export function AssetsList({ assets, t }: AssetsListProps) {
   if (!assets || assets.length === 0) return null
 
   const handleDownloadAll = () => {
@@ -126,7 +140,7 @@ export function AssetsList({ assets }: AssetsListProps) {
     >
       <div className="p-3 space-y-2">
         {assets.map((asset, index) => (
-          <AssetItem key={index} asset={asset} />
+          <AssetItem key={index} asset={asset} t={t} />
         ))}
       </div>
     </CollapsibleSection>

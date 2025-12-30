@@ -52,7 +52,7 @@ const chromiumManifest = {
   side_panel: {
     default_path: 'src/sidepanel/index.html',
   },
-  permissions: ['activeTab', 'storage', 'sidePanel', 'scripting'],
+  permissions: ['activeTab', 'storage', 'sidePanel', 'scripting', 'downloads'],
   host_permissions: ['<all_urls>'],
   web_accessible_resources: [
     {
@@ -94,7 +94,7 @@ const firefoxManifest = {
       '32': 'icons/icon-32.png',
     },
   },
-  permissions: ['activeTab', 'storage', 'scripting'],
+  permissions: ['activeTab', 'storage', 'scripting', 'downloads'],
   host_permissions: ['<all_urls>'],
   web_accessible_resources: [
     {

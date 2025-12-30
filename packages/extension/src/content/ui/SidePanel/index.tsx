@@ -1,5 +1,7 @@
 import { cn } from '@/lib/utils'
 import { useSidePanelStore } from '@/stores/sidePanelStore'
+import { detectLocale, getMessages } from '@/i18n'
+import type { I18nMessages } from '@/i18n'
 import { PanelHeader } from './PanelHeader'
 import {
   DocumentTree,
@@ -15,6 +17,7 @@ import {
  */
 export function SidePanel() {
   const { isOpen, selectedElement, elementInfo } = useSidePanelStore()
+  const t: I18nMessages = getMessages(detectLocale())
 
   if (!isOpen) return null
 
@@ -30,10 +33,10 @@ export function SidePanel() {
         'animate-in slide-in-from-right duration-300'
       )}
       role="complementary"
-      aria-label="元素信息面板"
+      aria-label="Element Info Panel"
     >
       {/* 头部 */}
-      <PanelHeader element={selectedElement} info={elementInfo} />
+      <PanelHeader element={selectedElement} info={elementInfo} t={t.sidepanel} />
 
       {/* 滚动内容区 */}
       <div className="flex-1 overflow-y-auto custom-scrollbar">
@@ -42,18 +45,18 @@ export function SidePanel() {
             <DocumentTree element={selectedElement} />
             <BoxModel info={elementInfo.boxModel} />
             <CSSProperties styles={elementInfo.computedStyles} />
-            <ColorsList colors={elementInfo.colors} />
+            <ColorsList colors={elementInfo.colors} t={t.sidepanel} />
             <TypographyList typography={elementInfo.typography} />
-            <AssetsList assets={elementInfo.assets} />
+            <AssetsList assets={elementInfo.assets} t={t.sidepanel} />
           </>
         ) : (
           <div className="flex items-center justify-center h-full p-8">
             <div className="text-center">
               <p className="text-muted-foreground text-sm">
-                在页面上点击元素以查看详情
+                {t.sidepanel.noElementSelected}
               </p>
               <p className="text-muted-foreground/60 text-xs mt-2">
-                使用检查器工具 (V) 选择元素
+                {t.sidepanel.useInspector}
               </p>
             </div>
           </div>

@@ -13,12 +13,18 @@ export interface I18nMessages {
     inspectAll: string
     search: string
     eyedropper: string
+    screenshot: string
+    layoutVisualizer: string
     sidepanel: string
     pause: string
     resume: string
     minimize: string
     expand: string
     close: string
+  }
+  // 截图
+  screenshot: {
+    capturedBy: string // "Captured by Gripper"
   }
   // 弹出框
   popup: {
@@ -32,6 +38,12 @@ export interface I18nMessages {
     themeLight: string
     themeDark: string
     language: string
+    screenshotSettings: string
+    screenshotSettingsDesc: string
+    showWatermark: string
+    includeTimestamp: string
+    expandCaptureArea: string
+    showGridOverlay: string
     learnMore: string
     version: string
   }
@@ -41,6 +53,8 @@ export interface I18nMessages {
     useInspector: string
     shortcuts: string
     version: string
+    extensionNotEnabled: string
+    clickToEnable: string
     // 模块标题
     documentTree: string
     boxModel: string
@@ -54,8 +68,20 @@ export interface I18nMessages {
     copied: string
     download: string
     downloadAll: string
+    downloadSelected: string
     showAll: string
     collapse: string
+    selectAll: string
+    deselectAll: string
+    copySelected: string
+    locateInPage: string
+    preview: string
+    copySelector: string
+    selectorCopied: string
+    copyAllStyles: string
+    copySvg: string
+    copyBase64: string
+    copyUrl: string
     // 颜色相关
     textColors: string
     bgColors: string
@@ -64,11 +90,36 @@ export interface I18nMessages {
     noPreview: string
     filterAll: string
     filterImage: string
+    filterVideo: string
+    filterAudio: string
     noAssetsInFilter: string
+    // 排版相关
+    size: string
+    weight: string
+    lineHeight: string
+    letterSpacing: string
+    downloadFont: string
+    copyCss: string
+    fontNotFound: string
     // 通用
     more: string
     characters: string
     paragraphs: string
+    lines: string
+  }
+  // 搜索
+  search: {
+    placeholder: string
+    previousResult: string
+    nextResult: string
+    close: string
+  }
+  // 盒模型
+  boxModel: {
+    margin: string
+    border: string
+    padding: string
+    content: string
   }
   // 提示
   tips: {
@@ -86,12 +137,17 @@ const messages: Record<Locale, I18nMessages> = {
       inspectAll: 'Inspect All',
       search: 'Find Element',
       eyedropper: 'Color Picker',
+      screenshot: 'Screenshot',
+      layoutVisualizer: 'Grid/Flex',
       sidepanel: 'Side Panel',
       pause: 'Pause',
       resume: 'Resume',
       minimize: 'Minimize',
       expand: 'Expand',
       close: 'Close',
+    },
+    screenshot: {
+      capturedBy: 'Captured by Gripper',
     },
     popup: {
       title: 'Gripper',
@@ -104,6 +160,12 @@ const messages: Record<Locale, I18nMessages> = {
       themeLight: 'Light',
       themeDark: 'Dark',
       language: 'Language',
+      screenshotSettings: 'Screenshot Settings',
+      screenshotSettingsDesc: 'Customize screenshot capture options',
+      showWatermark: 'Show watermark',
+      includeTimestamp: 'Include timestamp',
+      expandCaptureArea: 'Expand capture area',
+      showGridOverlay: 'Show grid overlay',
       learnMore: 'Learn More',
       version: 'Version',
     },
@@ -111,7 +173,9 @@ const messages: Record<Locale, I18nMessages> = {
       noElementSelected: 'Click an element on the page to view details',
       useInspector: 'Use Inspector (V) to select element',
       shortcuts: 'Shortcuts: V Inspector | S Side Panel',
-      version: 'v0.1.0',
+      version: 'v1.0.0',
+      extensionNotEnabled: 'Extension is not enabled on this page',
+      clickToEnable: 'Click the extension icon to enable',
       // 模块标题
       documentTree: 'Document',
       boxModel: 'Box Model',
@@ -125,8 +189,20 @@ const messages: Record<Locale, I18nMessages> = {
       copied: 'Copied',
       download: 'Download',
       downloadAll: 'Download All',
+      downloadSelected: 'Download Selected',
       showAll: 'Show all',
       collapse: 'Collapse',
+      selectAll: 'Select All',
+      deselectAll: 'Deselect All',
+      copySelected: 'Copy Selected',
+      locateInPage: 'Locate in Page',
+      preview: 'Preview',
+      copySelector: 'Copy Selector',
+      selectorCopied: 'Selector Copied',
+      copyAllStyles: 'Copy All Styles',
+      copySvg: 'Copy SVG',
+      copyBase64: 'Copy Base64',
+      copyUrl: 'Copy URL',
       // 颜色相关
       textColors: 'Text Colors',
       bgColors: 'Background Colors',
@@ -135,11 +211,34 @@ const messages: Record<Locale, I18nMessages> = {
       noPreview: 'No preview available',
       filterAll: 'All',
       filterImage: 'Image',
+      filterVideo: 'Video',
+      filterAudio: 'Audio',
       noAssetsInFilter: 'No assets in this category',
+      // 排版相关
+      size: 'Size',
+      weight: 'Weight',
+      lineHeight: 'Line Height',
+      letterSpacing: 'Letter Spacing',
+      downloadFont: 'Download Font',
+      copyCss: 'Copy CSS',
+      fontNotFound: 'Font file not found',
       // 通用
       more: 'more',
       characters: 'characters',
       paragraphs: 'paragraphs',
+      lines: 'lines',
+    },
+    search: {
+      placeholder: 'Enter selector (e.g. div.class, #id)',
+      previousResult: 'Previous',
+      nextResult: 'Next',
+      close: 'Close',
+    },
+    boxModel: {
+      margin: 'Margin',
+      border: 'Border',
+      padding: 'Padding',
+      content: 'Content',
     },
     tips: {
       colorCopied: 'Color copied!',
@@ -154,12 +253,17 @@ const messages: Record<Locale, I18nMessages> = {
       inspectAll: '全量审查',
       search: '查找元素',
       eyedropper: '吸管取色',
+      screenshot: '截图',
+      layoutVisualizer: '布局可视化',
       sidepanel: '侧边栏',
       pause: '暂停',
       resume: '恢复',
       minimize: '最小化',
       expand: '展开',
       close: '关闭',
+    },
+    screenshot: {
+      capturedBy: '由 Gripper 截取',
     },
     popup: {
       title: 'Gripper',
@@ -172,6 +276,12 @@ const messages: Record<Locale, I18nMessages> = {
       themeLight: '亮色',
       themeDark: '暗色',
       language: '语言',
+      screenshotSettings: '截图设置',
+      screenshotSettingsDesc: '自定义截图选项',
+      showWatermark: '显示水印',
+      includeTimestamp: '包含时间戳',
+      expandCaptureArea: '扩展截图区域',
+      showGridOverlay: '显示网格覆盖',
       learnMore: '查看更多',
       version: '版本',
     },
@@ -179,7 +289,9 @@ const messages: Record<Locale, I18nMessages> = {
       noElementSelected: '在页面上点击元素以查看详情',
       useInspector: '使用检查器 (V) 选择元素',
       shortcuts: '快捷键: V 检查器 | S 侧边栏',
-      version: 'v0.1.0',
+      version: 'v1.0.0',
+      extensionNotEnabled: '插件未在此页面启用',
+      clickToEnable: '点击插件图标以启用',
       // 模块标题
       documentTree: '文档',
       boxModel: '盒模型',
@@ -193,8 +305,20 @@ const messages: Record<Locale, I18nMessages> = {
       copied: '已复制',
       download: '下载',
       downloadAll: '全部下载',
+      downloadSelected: '下载选中',
       showAll: '显示全部',
       collapse: '收起',
+      selectAll: '全选',
+      deselectAll: '取消全选',
+      copySelected: '复制选中',
+      locateInPage: '页面定位',
+      preview: '预览',
+      copySelector: '复制选择器',
+      selectorCopied: '选择器已复制',
+      copyAllStyles: '复制全部样式',
+      copySvg: '复制 SVG',
+      copyBase64: '复制 Base64',
+      copyUrl: '复制 URL',
       // 颜色相关
       textColors: '文字颜色',
       bgColors: '背景颜色',
@@ -203,11 +327,34 @@ const messages: Record<Locale, I18nMessages> = {
       noPreview: '无法预览',
       filterAll: '全部',
       filterImage: '图片',
+      filterVideo: '视频',
+      filterAudio: '音频',
       noAssetsInFilter: '此分类下无资源',
+      // 排版相关
+      size: '字号',
+      weight: '字重',
+      lineHeight: '行高',
+      letterSpacing: '字间距',
+      downloadFont: '下载字体',
+      copyCss: '复制 CSS',
+      fontNotFound: '未找到字体文件',
       // 通用
       more: '更多',
       characters: '个字符',
       paragraphs: '个段落',
+      lines: '行',
+    },
+    search: {
+      placeholder: '输入选择器 (例如 div.class, #id)',
+      previousResult: '上一个',
+      nextResult: '下一个',
+      close: '关闭',
+    },
+    boxModel: {
+      margin: '外边距',
+      border: '边框',
+      padding: '内边距',
+      content: '内容',
     },
     tips: {
       colorCopied: '颜色已复制！',

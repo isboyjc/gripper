@@ -2,15 +2,17 @@ import { Copy, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard'
 import type { SelectedElementInfo } from '@/types'
+import type { I18nMessages } from '@/i18n'
 
 interface PanelHeaderProps {
   elementInfo: SelectedElementInfo | null
+  t?: I18nMessages['sidepanel']
 }
 
 /**
  * 侧边栏头部组件
  */
-export function PanelHeader({ elementInfo }: PanelHeaderProps) {
+export function PanelHeader({ elementInfo, t }: PanelHeaderProps) {
   const { copied, copy } = useCopyToClipboard()
 
   return (
@@ -39,7 +41,7 @@ export function PanelHeader({ elementInfo }: PanelHeaderProps) {
                 'hover:bg-accent hover:text-foreground',
                 'transition-colors'
               )}
-              title={copied ? '已复制' : '复制选择器'}
+              title={copied ? (t?.copied || 'Copied') : (t?.copySelector || 'Copy Selector')}
             >
               {copied ? (
                 <Check size={14} className="text-success" />
@@ -54,7 +56,7 @@ export function PanelHeader({ elementInfo }: PanelHeaderProps) {
         </div>
       ) : (
         <div className="text-sm text-muted-foreground">
-          未选中元素
+          {t?.noElementSelected || 'No element selected'}
         </div>
       )}
     </div>

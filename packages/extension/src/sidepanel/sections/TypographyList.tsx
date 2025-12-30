@@ -56,7 +56,7 @@ function isSystemFont(fontFamily: string): boolean {
 /**
  * 单个字体卡片
  */
-function TypographyCard({ info }: { info: TypographyInfo }) {
+function TypographyCard({ info, t }: { info: TypographyInfo; t?: I18nMessages['sidepanel'] }) {
   const { copied: cssCopied, copy: copyCss } = useCopyToClipboard()
   
   const fontName = info.fontFamily.split(',')[0].replace(/['"]/g, '').trim()
@@ -95,7 +95,7 @@ letter-spacing: ${info.letterSpacing};`
           }
         } catch { /* Cross-origin stylesheet */ }
       }
-      alert('无法找到字体文件')
+      alert(t?.fontNotFound || 'Font file not found')
     } catch (error) {
       console.error('Failed to find font:', error)
     }
@@ -113,7 +113,7 @@ letter-spacing: ${info.letterSpacing};`
             <button
               onClick={handleDownloadFont}
               className="p-1 rounded hover:bg-accent text-muted-foreground hover:text-foreground"
-              title="下载字体"
+              title={t?.downloadFont || 'Download Font'}
             >
               <Download size={14} />
             </button>
@@ -121,7 +121,7 @@ letter-spacing: ${info.letterSpacing};`
           <button
             onClick={() => copyCss(cssText)}
             className="p-1 rounded hover:bg-accent text-muted-foreground hover:text-foreground"
-            title="复制 CSS"
+            title={t?.copyCss || 'Copy CSS'}
           >
             {cssCopied ? <Check size={14} className="text-success" /> : <Copy size={14} />}
           </button>
@@ -152,19 +152,19 @@ letter-spacing: ${info.letterSpacing};`
       {/* 属性列表 - 移除颜色 */}
       <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-[11px]">
         <div className="flex justify-between">
-          <span className="text-muted-foreground">Size</span>
+          <span className="text-muted-foreground">{t?.size || 'Size'}</span>
           <span className="text-foreground font-mono">{info.fontSize}</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-muted-foreground">Weight</span>
+          <span className="text-muted-foreground">{t?.weight || 'Weight'}</span>
           <span className="text-foreground font-mono">{info.fontWeight}</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-muted-foreground">Line Height</span>
+          <span className="text-muted-foreground">{t?.lineHeight || 'Line Height'}</span>
           <span className="text-foreground font-mono">{info.lineHeight}</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-muted-foreground">Letter Spacing</span>
+          <span className="text-muted-foreground">{t?.letterSpacing || 'Letter Spacing'}</span>
           <span className="text-foreground font-mono">{info.letterSpacing}</span>
         </div>
       </div>
@@ -218,7 +218,7 @@ export function TypographyList({ title = 'Typography Styles', typography, expand
     >
       <div className="p-3 space-y-3">
         {visibleItems.map((info, index) => (
-          <TypographyCard key={index} info={info} />
+          <TypographyCard key={index} info={info} t={t} />
         ))}
         
         {hasMore && !showAll && (

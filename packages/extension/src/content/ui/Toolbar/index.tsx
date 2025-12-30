@@ -21,10 +21,13 @@ interface ToolbarProps {
   onToggleEyedropper: () => void
   onToggleInspectAll: () => void
   onToggleSearch: () => void
+  onToggleLayoutVisualizer: () => void
+  onScreenshot: () => void
   isInspectorActive: boolean
   isEyedropperActive: boolean
   isInspectAllActive: boolean
   isSearchActive: boolean
+  isLayoutVisualizerActive: boolean
 }
 
 export function Toolbar({
@@ -41,10 +44,13 @@ export function Toolbar({
   onToggleEyedropper,
   onToggleInspectAll,
   onToggleSearch,
+  onToggleLayoutVisualizer,
+  onScreenshot,
   isInspectorActive,
   isEyedropperActive,
   isInspectAllActive,
   isSearchActive,
+  isLayoutVisualizerActive,
 }: ToolbarProps) {
   const { activeTools, toggleTool, isMinimized, setMinimized, isSidePanelOpen, setSidePanelOpen } = useToolbarStore()
   const isDark = theme === 'dark'
@@ -54,7 +60,7 @@ export function Toolbar({
     bottom: isMinimized ? '0.5rem' : '0.75rem',
     left: '50%',
     transform: 'translateX(-50%)',
-    zIndex: 2147483647,
+    zIndex: 2147483647, // 最大 z-index
     display: 'flex',
     alignItems: 'center',
     gap: '2px',
@@ -68,6 +74,8 @@ export function Toolbar({
     borderRadius: isMinimized ? '8px' : '10px',
     boxShadow: isDark ? '0 8px 32px -8px rgba(0, 0, 0, 0.5)' : '0 8px 32px -8px rgba(0, 0, 0, 0.15)',
     transition: 'all 200ms ease',
+    // 确保在所有元素之上，包括模态框
+    isolation: 'isolate',
   })
 
   const handleToolClick = useCallback(async (toolId: ToolId) => {
@@ -82,15 +90,18 @@ export function Toolbar({
       case 'eyedropper': onToggleEyedropper(); break
       case 'inspect-all': onToggleInspectAll(); break
       case 'search': onToggleSearch(); break
+      case 'layout-visualizer': onToggleLayoutVisualizer(); break
+      case 'screenshot': onScreenshot(); break
       case 'sidepanel':
         try {
-          if (isSidePanelOpen) {
-            setSidePanelOpen(false)
-          } else {
-            chrome.runtime.sendMessage({ type: 'OPEN_SIDE_PANEL' }, (response) => {
-              if (response?.success) setSidePanelOpen(true)
-            })
-          }
+          // 总是尝试打开侧边栏
+          chrome.runtime.sendMessage({ type: 'OPEN_SIDE_PANEL' }, (response) => {
+            if (response?.success) {
+              setSidePanelOpen(true)
+            } else {
+              console.error('[Gripper] Failed to open side panel:', response)
+            }
+          })
         } catch (error) { console.error('[Gripper] Side panel error:', error) }
         break
       case 'inspector':
@@ -98,7 +109,7 @@ export function Toolbar({
         break
       default: toggleTool(toolId)
     }
-  }, [toggleTool, setMinimized, onDisable, onSelectParent, onSelectChild, isPaused, onTogglePause, onToggleInspector, onToggleEyedropper, onToggleInspectAll, onToggleSearch, isSidePanelOpen, setSidePanelOpen])
+  }, [toggleTool, setMinimized, onDisable, onSelectParent, onSelectChild, isPaused, onTogglePause, onToggleInspector, onToggleEyedropper, onToggleInspectAll, onToggleSearch, onToggleLayoutVisualizer, onScreenshot, isSidePanelOpen, setSidePanelOpen])
 
   // 键盘快捷键
   useEffect(() => {
@@ -222,6 +233,7 @@ export function Toolbar({
             tool.id === 'eyedropper' ? isEyedropperActive :
             tool.id === 'inspect-all' ? isInspectAllActive :
             tool.id === 'search' ? isSearchActive :
+            tool.id === 'layout-visualizer' ? isLayoutVisualizerActive :
             activeTools.includes(tool.id)
           }
           disabled={isPaused}

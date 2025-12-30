@@ -21,6 +21,8 @@ const mockT: I18nMessages['toolbar'] = {
   inspectAll: 'Inspect All',
   search: 'Find Element',
   eyedropper: 'Color Picker',
+  screenshot: 'Screenshot',
+  layoutVisualizer: 'Grid/Flex',
   sidepanel: 'Side Panel',
   pause: 'Pause',
   resume: 'Resume',

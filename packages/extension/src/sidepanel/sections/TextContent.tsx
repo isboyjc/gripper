@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Copy, Check } from 'lucide-react'
 import { CollapsibleSection } from '../components'
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard'
@@ -28,14 +29,16 @@ function formatText(text: string): string[] {
  */
 export function TextContent({ title = 'Text Content', text, expanded, onToggle, t }: TextContentProps) {
   const { copied, copy } = useCopyToClipboard()
+  const [showAll, setShowAll] = useState(false)
 
   if (!text || text.trim().length === 0) return null
 
   // 格式化文本为段落
   const paragraphs = formatText(text)
   const fullText = paragraphs.join('\n\n')
-  const displayParagraphs = paragraphs.slice(0, 10) // 最多显示10个段落
-  const hasMore = paragraphs.length > 10
+  const PREVIEW_COUNT = 10
+  const displayParagraphs = showAll ? paragraphs : paragraphs.slice(0, PREVIEW_COUNT)
+  const hasMore = paragraphs.length > PREVIEW_COUNT
 
   return (
     <CollapsibleSection
@@ -63,19 +66,32 @@ export function TextContent({ title = 'Text Content', text, expanded, onToggle, 
             'text-sm leading-relaxed',
             'bg-muted rounded-md p-3',
             'text-foreground',
-            'max-h-48 overflow-y-auto custom-scrollbar',
+            showAll ? 'max-h-96' : 'max-h-48',
+            'overflow-y-auto custom-scrollbar',
             'space-y-2'
           )}
         >
           {displayParagraphs.map((p, i) => (
             <p key={i} className="break-words">{p}</p>
           ))}
-          {hasMore && (
-            <p className="text-muted-foreground italic">... {paragraphs.length - 10} {t?.more || 'more'}</p>
-          )}
         </div>
+
+        {/* 展开/收起按钮 */}
+        {hasMore && (
+          <button
+            type="button"
+            onClick={() => setShowAll(!showAll)}
+            className="text-xs text-muted-foreground hover:text-foreground underline transition-colors mt-2"
+          >
+            {showAll
+              ? t?.collapse || 'Collapse'
+              : `${t?.showAll || 'Show all'} (${paragraphs.length - PREVIEW_COUNT} ${t?.more || 'more'})`
+            }
+          </button>
+        )}
+
         <p className="text-xs text-muted-foreground mt-2">
-          {fullText.length} {t?.characters || 'characters'} · {paragraphs.length} lines
+          {fullText.length} {t?.characters || 'characters'} · {paragraphs.length} {t?.lines || 'lines'}
         </p>
       </div>
     </CollapsibleSection>

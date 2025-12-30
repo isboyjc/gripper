@@ -1,13 +1,14 @@
 {
   "name": "gripper-monorepo",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Gripper - A powerful browser extension for developers and designers",
   "scripts": {
     "dev": "pnpm --filter @gripper/extension dev",
     "dev:firefox": "pnpm --filter @gripper/extension dev:firefox",
     "dev:edge": "pnpm --filter @gripper/extension dev:edge",
     "dev:website": "pnpm --filter @gripper/website dev",
+    "icons": "pnpm --filter @gripper/extension icons",
     "build": "pnpm --filter @gripper/extension build",
     "build:chrome": "pnpm --filter @gripper/extension build:chrome",
     "build:firefox": "pnpm --filter @gripper/extension build:firefox",

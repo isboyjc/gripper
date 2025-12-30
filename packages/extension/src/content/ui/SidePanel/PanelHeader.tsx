@@ -3,16 +3,18 @@ import { cn } from '@/lib/utils'
 import { useSidePanelStore } from '@/stores/sidePanelStore'
 import { CopyButton } from './components'
 import type { SelectedElementInfo } from '@/types'
+import type { I18nMessages } from '@/i18n'
 
 interface PanelHeaderProps {
   element: Element | null
   info: SelectedElementInfo | null
+  t?: I18nMessages['sidepanel']
 }
 
 /**
  * 侧边栏头部组件
  */
-export function PanelHeader({ element, info }: PanelHeaderProps) {
+export function PanelHeader({ element, info, t }: PanelHeaderProps) {
   const { setOpen } = useSidePanelStore()
 
   return (
@@ -26,11 +28,11 @@ export function PanelHeader({ element, info }: PanelHeaderProps) {
               <span className="text-sm font-medium text-foreground truncate">
                 {info.selector}
               </span>
-              <CopyButton text={info.selector} size={12} />
+              <CopyButton text={info.selector} size={12} t={t} />
             </>
           ) : (
             <span className="text-sm text-muted-foreground">
-              未选中元素
+              {t?.noElementSelected || 'No element selected'}
             </span>
           )}
         </div>
@@ -45,7 +47,7 @@ export function PanelHeader({ element, info }: PanelHeaderProps) {
             'hover:bg-accent hover:text-foreground',
             'transition-colors'
           )}
-          title="关闭侧边栏"
+          title="Close"
         >
           <X size={16} />
         </button>

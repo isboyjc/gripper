@@ -4,9 +4,11 @@ import { useSidePanelStore } from '@/stores/sidePanelStore'
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard'
 import { cn } from '@/lib/utils'
 import type { ColorInfo, ColorFormat } from '@/types'
+import type { I18nMessages } from '@/i18n'
 
 interface ColorsListProps {
   colors?: ColorInfo[]
+  t?: I18nMessages['sidepanel']
 }
 
 /**
@@ -36,7 +38,7 @@ function FormatSelector() {
 /**
  * 单个颜色项
  */
-function ColorItem({ color, value }: { color: ColorInfo; value: string }) {
+function ColorItem({ color, value, t }: { color: ColorInfo; value: string; t?: I18nMessages['sidepanel'] }) {
   const { copied, copy } = useCopyToClipboard()
 
   return (
@@ -50,7 +52,7 @@ function ColorItem({ color, value }: { color: ColorInfo; value: string }) {
         'hover:border-border transition-colors',
         'text-left'
       )}
-      title={`点击复制: ${value}`}
+      title={`${t?.copy || 'Copy'}: ${value}`}
     >
       <ColorSwatch color={color.hex} size={16} />
       <span className="text-xs font-mono text-foreground flex items-center gap-1">
@@ -67,7 +69,7 @@ function ColorItem({ color, value }: { color: ColorInfo; value: string }) {
 /**
  * 颜色列表组件
  */
-export function ColorsList({ colors }: ColorsListProps) {
+export function ColorsList({ colors, t }: ColorsListProps) {
   const { colorFormat } = useSidePanelStore()
 
   if (!colors || colors.length === 0) return null
@@ -104,7 +106,7 @@ export function ColorsList({ colors }: ColorsListProps) {
             <h4 className="text-xs text-muted-foreground mb-2">Text</h4>
             <div className="flex flex-wrap gap-2">
               {textColors.map((color, i) => (
-                <ColorItem key={i} color={color} value={getColorValue(color)} />
+                <ColorItem key={i} color={color} value={getColorValue(color)} t={t} />
               ))}
             </div>
           </div>
@@ -116,7 +118,7 @@ export function ColorsList({ colors }: ColorsListProps) {
             <h4 className="text-xs text-muted-foreground mb-2">Backgrounds</h4>
             <div className="flex flex-wrap gap-2">
               {bgColors.map((color, i) => (
-                <ColorItem key={i} color={color} value={getColorValue(color)} />
+                <ColorItem key={i} color={color} value={getColorValue(color)} t={t} />
               ))}
             </div>
           </div>
@@ -128,7 +130,7 @@ export function ColorsList({ colors }: ColorsListProps) {
             <h4 className="text-xs text-muted-foreground mb-2">Borders</h4>
             <div className="flex flex-wrap gap-2">
               {borderColors.map((color, i) => (
-                <ColorItem key={i} color={color} value={getColorValue(color)} />
+                <ColorItem key={i} color={color} value={getColorValue(color)} t={t} />
               ))}
             </div>
           </div>
