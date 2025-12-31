@@ -106,9 +106,14 @@ const firefoxManifest = {
   ],
   browser_specific_settings: {
     gecko: {
-      id: 'gripper@example.com',
+      id: 'gripper@sentenceend.com',
       strict_min_version: '109.0',
     },
+  },
+  // Firefox 数据收集权限声明
+  data_collection_permissions: {
+    // 不收集任何数据
+    collect_data: false,
   },
 }
 
