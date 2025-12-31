@@ -313,7 +313,7 @@ export function App() {
         </div>
 
         <button
-          onClick={() => chrome.tabs.create({ url: 'https://github.com/isboyjc/gripper' })}
+          onClick={() => chrome.tabs.create({ url: 'https://gripper.isboyjc.com' })}
           style={btnStyle}
           onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = isDark ? 'rgba(63, 63, 70, 0.3)' : 'rgba(244, 244, 245, 0.8)' }}
           onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent' }}
