@@ -107,7 +107,7 @@ const firefoxManifest = {
   browser_specific_settings: {
     gecko: {
       id: 'gripper@sentenceend.com',
-      strict_min_version: '109.0',
+      strict_min_version: '112.0',
     },
   },
   // Firefox 数据收集权限声明

@@ -15,6 +15,8 @@
     "build:firefox": "BROWSER=firefox vite build",
     "build:edge": "BROWSER=edge vite build",
     "build:watch": "BROWSER=chrome vite build --watch",
+    "package": "node scripts/package.mjs",
+    "package:all": "pnpm build && pnpm package",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
