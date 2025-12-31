@@ -1,7 +1,6 @@
 {
   "name": "gripper-monorepo",
   "private": true,
-  "version": "1.0.0",
   "description": "Gripper - A powerful browser extension for developers and designers",
   "scripts": {
     "dev": "pnpm --filter @gripper/extension dev",
@@ -23,7 +22,10 @@
     "test:ui": "pnpm --filter @gripper/extension test:ui",
     "test:coverage": "pnpm --filter @gripper/extension test:coverage",
     "clean": "rm -rf packages/*/dist packages/*/node_modules node_modules",
-    "clean:website": "rm -rf packages/website/.next packages/website/out"
+    "clean:website": "rm -rf packages/website/.next packages/website/out",
+    "changeset": "changeset",
+    "changeset:version": "changeset version",
+    "release": "pnpm changeset:version && pnpm build:all"
   },
   "keywords": [
     "browser-extension",
@@ -43,5 +45,8 @@
   "engines": {
     "node": ">=18.0.0",
     "pnpm": ">=8.0.0"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.29.8"
   }
 }
