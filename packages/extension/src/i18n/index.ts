@@ -52,7 +52,6 @@ export interface I18nMessages {
     noElementSelected: string
     useInspector: string
     shortcuts: string
-    version: string
     extensionNotEnabled: string
     clickToEnable: string
     // 模块标题
@@ -173,7 +172,6 @@ const messages: Record<Locale, I18nMessages> = {
       noElementSelected: 'Click an element on the page to view details',
       useInspector: 'Use Inspector (V) to select element',
       shortcuts: 'Shortcuts: V Inspector | S Side Panel',
-      version: 'v1.0.0',
       extensionNotEnabled: 'Extension is not enabled on this page',
       clickToEnable: 'Click the extension icon to enable',
       // 模块标题
@@ -289,7 +287,6 @@ const messages: Record<Locale, I18nMessages> = {
       noElementSelected: '在页面上点击元素以查看详情',
       useInspector: '使用检查器 (V) 选择元素',
       shortcuts: '快捷键: V 检查器 | S 侧边栏',
-      version: 'v1.0.0',
       extensionNotEnabled: '插件未在此页面启用',
       clickToEnable: '点击插件图标以启用',
       // 模块标题

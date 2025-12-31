@@ -3,6 +3,7 @@ import { Power, Moon, Sun, Monitor, ExternalLink, Globe, Camera, ChevronDown } f
 import type { Locale } from '@/i18n'
 import { getMessages, detectLocale } from '@/i18n'
 import { useScreenshotStore } from '@/stores/screenshotStore'
+import { getExtensionVersion } from '@/lib/utils'
 
 type ThemeMode = 'light' | 'dark' | 'system'
 
@@ -326,7 +327,7 @@ export function App() {
       {/* 底部 */}
       <div style={{ padding: '8px 16px', borderTop: `1px solid ${borderColor}` }}>
         <p style={{ margin: 0, fontSize: '11px', color: isDark ? '#52525b' : '#a1a1aa', textAlign: 'center' }}>
-          {t.popup.version} 1.0.0
+          {t.popup.version} {getExtensionVersion()}
         </p>
       </div>
     </div>

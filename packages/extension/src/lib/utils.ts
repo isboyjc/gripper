@@ -60,3 +60,17 @@ export function formatPx(value: number): string {
 export function parsePx(value: string): number {
   return parseFloat(value.replace('px', '')) || 0
 }
+
+/**
+ * 获取扩展版本号
+ * @returns 版本号字符串，例如 "v1.0.2"
+ */
+export function getExtensionVersion(): string {
+  try {
+    const version = chrome.runtime.getManifest().version
+    return `v${version}`
+  } catch (error) {
+    console.error('Failed to get extension version:', error)
+    return 'v1.0.0' // 降级返回默认版本
+  }
+}

@@ -12,6 +12,7 @@ import { PanelHeader } from './PanelHeader'
 import { detectLocale, getMessages } from '@/i18n'
 import type { SelectedElementInfo, ColorFormat } from '@/types'
 import type { Locale, I18nMessages } from '@/i18n'
+import { getExtensionVersion } from '@/lib/utils'
 
 /**
  * Side Panel 应用组件
@@ -310,7 +311,7 @@ export function App() {
       <div className="px-4 py-2 border-t border-border text-xs text-muted-foreground">
         <div className="flex items-center justify-between">
           <span>{t.sidepanel.shortcuts}</span>
-          <span>{t.sidepanel.version}</span>
+          <span>{getExtensionVersion()}</span>
         </div>
       </div>
     </div>
