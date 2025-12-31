@@ -1,0 +1,105 @@
+{
+  "hero": {
+    "title": "Gripper",
+    "subtitle": "为设计师打造的开发工具",
+    "description": "一款为开发者和设计师设计的强大浏览器扩展。轻松检查元素、拾取颜色、分析排版、截取屏幕截图和导出资源。",
+    "downloadChrome": "下载 Chrome 版本",
+    "downloadFirefox": "下载 Firefox 版本",
+    "downloadEdge": "下载 Edge 版本",
+    "comingSoon": "即将推出",
+    "viewOnGitHub": "在 GitHub 上查看"
+  },
+  "features": {
+    "title": "强大功能",
+    "subtitle": "满足设计检查和开发的一切需求",
+    "inspector": {
+      "title": "元素检查器",
+      "description": "点击任意元素查看 CSS 属性、尺寸和计算样式等详细信息"
+    },
+    "colorPicker": {
+      "title": "颜色拾取器",
+      "description": "从页面任意位置拾取颜色，放大预览并自动复制到剪贴板以便使用"
+    },
+    "screenshot": {
+      "title": "截图工具",
+      "description": "捕获元素截图，可自定义水印、时间戳和网格叠加选项"
+    },
+    "typography": {
+      "title": "排版分析",
+      "description": "分析字体、大小、粗细、行高和字间距等全面的详细信息"
+    },
+    "boxModel": {
+      "title": "盒模型查看器",
+      "description": "通过交互式显示和测量可视化外边距、边框、内边距和内容"
+    },
+    "assetExport": {
+      "title": "资源导出",
+      "description": "一键直接导出图片、SVG 和其他资源以快速下载"
+    },
+    "elementSearch": {
+      "title": "元素搜索",
+      "description": "通过标签、类或 ID 搜索元素，支持键盘导航以快速访问"
+    },
+    "sidePanel": {
+      "title": "侧边栏",
+      "description": "在浏览器侧边栏中查看有组织的详细元素信息"
+    },
+    "shortcuts": {
+      "title": "键盘快捷键",
+      "description": "使用直观的快捷键提高生产力，快速访问所有操作"
+    },
+    "darkMode": {
+      "title": "深色/浅色主题",
+      "description": "系统偏好检测并支持手动切换，获得舒适的查看体验"
+    },
+    "i18n": {
+      "title": "国际化",
+      "description": "完全支持英语和中文（简体），可轻松切换语言"
+    },
+    "perTab": {
+      "title": "独立标签页状态",
+      "description": "每个浏览器标签页的扩展状态独立，更好地管理工作流程"
+    }
+  },
+  "shortcuts": {
+    "title": "键盘快捷键",
+    "subtitle": "使用直观的键盘快捷键提高工作效率",
+    "inspector": "切换检查器模式",
+    "colorPicker": "颜色拾取器（滴管）",
+    "search": "元素搜索",
+    "sidePanel": "切换侧边栏",
+    "inspectAll": "检查所有元素",
+    "selectParent": "选择父元素",
+    "selectChild": "选择子元素",
+    "pause": "暂停/继续",
+    "close": "关闭扩展"
+  },
+  "installation": {
+    "title": "安装",
+    "subtitle": "几秒钟即可开始使用 Gripper",
+    "fromStore": "从浏览器商店",
+    "manual": "手动安装",
+    "step1": "克隆仓库",
+    "step2": "安装依赖",
+    "step3": "构建扩展",
+    "step4": "在浏览器中加载"
+  },
+  "footer": {
+    "description": "一款为开发者和设计师打造的强大浏览器扩展",
+    "resources": "资源",
+    "documentation": "文档",
+    "github": "GitHub",
+    "issues": "问题",
+    "community": "社区",
+    "license": "许可证",
+    "madeWith": "用 ❤️ 为设计师和开发者打造",
+    "copyright": "© 2025 Gripper. 保留所有权利。",
+    "byAuthor": "By @isboyjc"
+  },
+  "nav": {
+    "features": "功能",
+    "shortcuts": "快捷键",
+    "installation": "安装",
+    "github": "GitHub"
+  }
+}

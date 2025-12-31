@@ -8,6 +8,7 @@
     "dev:firefox": "pnpm --filter @gripper/extension dev:firefox",
     "dev:edge": "pnpm --filter @gripper/extension dev:edge",
     "dev:website": "pnpm --filter @gripper/website dev",
+    "start:website": "pnpm --filter @gripper/website start",
     "icons": "pnpm --filter @gripper/extension icons",
     "build": "pnpm --filter @gripper/extension build",
     "build:chrome": "pnpm --filter @gripper/extension build:chrome",
@@ -16,10 +17,13 @@
     "build:website": "pnpm --filter @gripper/website build",
     "build:all": "pnpm build && pnpm build:website",
     "lint": "pnpm --filter @gripper/extension lint",
+    "lint:website": "pnpm --filter @gripper/website lint",
+    "lint:all": "pnpm -r lint",
     "test": "pnpm --filter @gripper/extension test",
     "test:ui": "pnpm --filter @gripper/extension test:ui",
     "test:coverage": "pnpm --filter @gripper/extension test:coverage",
-    "clean": "rm -rf packages/*/dist packages/*/node_modules node_modules"
+    "clean": "rm -rf packages/*/dist packages/*/node_modules node_modules",
+    "clean:website": "rm -rf packages/website/.next packages/website/out"
   },
   "keywords": [
     "browser-extension",

@@ -1,0 +1,105 @@
+{
+  "hero": {
+    "title": "Gripper",
+    "subtitle": "DevTools for Designers",
+    "description": "A powerful browser extension designed for developers and designers. Inspect elements, pick colors, analyze typography, capture screenshots, and export assets with ease.",
+    "downloadChrome": "Download for Chrome",
+    "downloadFirefox": "Download for Firefox",
+    "downloadEdge": "Download for Edge",
+    "comingSoon": "Coming Soon",
+    "viewOnGitHub": "View on GitHub"
+  },
+  "features": {
+    "title": "Powerful Features",
+    "subtitle": "Everything you need for design inspection and development",
+    "inspector": {
+      "title": "Element Inspector",
+      "description": "Click any element to view CSS properties, dimensions, and computed styles with detailed information"
+    },
+    "colorPicker": {
+      "title": "Color Picker",
+      "description": "Pick any color from the page with magnified preview and auto-copy to clipboard for easy use"
+    },
+    "screenshot": {
+      "title": "Screenshot Tool",
+      "description": "Capture element screenshots with customizable watermark, timestamp, and grid overlay options"
+    },
+    "typography": {
+      "title": "Typography Analysis",
+      "description": "Analyze fonts, sizes, weights, line heights, and letter spacing with comprehensive details"
+    },
+    "boxModel": {
+      "title": "Box Model Viewer",
+      "description": "Visualize margin, border, padding, and content with interactive display and measurements"
+    },
+    "assetExport": {
+      "title": "Asset Export",
+      "description": "Export images, SVGs, and other assets directly with one click for quick downloads"
+    },
+    "elementSearch": {
+      "title": "Element Search",
+      "description": "Search elements by tag, class, or ID with keyboard navigation for fast access"
+    },
+    "sidePanel": {
+      "title": "Side Panel",
+      "description": "View detailed element information in browser side panel with organized sections"
+    },
+    "shortcuts": {
+      "title": "Keyboard Shortcuts",
+      "description": "Boost productivity with intuitive shortcuts for all actions and quick access"
+    },
+    "darkMode": {
+      "title": "Dark/Light Theme",
+      "description": "System preference detection with manual toggle support for comfortable viewing"
+    },
+    "i18n": {
+      "title": "Internationalization",
+      "description": "Full support for English and Chinese (中文) with easy language switching"
+    },
+    "perTab": {
+      "title": "Per-Tab State",
+      "description": "Independent extension state for each browser tab for better workflow management"
+    }
+  },
+  "shortcuts": {
+    "title": "Keyboard Shortcuts",
+    "subtitle": "Boost your productivity with intuitive keyboard shortcuts",
+    "inspector": "Toggle Inspector Mode",
+    "colorPicker": "Color Picker (Eyedropper)",
+    "search": "Element Search",
+    "sidePanel": "Toggle Side Panel",
+    "inspectAll": "Inspect All Elements",
+    "selectParent": "Select Parent Element",
+    "selectChild": "Select Child Element",
+    "pause": "Pause/Resume",
+    "close": "Close Extension"
+  },
+  "installation": {
+    "title": "Installation",
+    "subtitle": "Get started with Gripper in seconds",
+    "fromStore": "From Browser Store",
+    "manual": "Manual Installation",
+    "step1": "Clone the repository",
+    "step2": "Install dependencies",
+    "step3": "Build the extension",
+    "step4": "Load in browser"
+  },
+  "footer": {
+    "description": "A powerful browser extension for developers and designers",
+    "resources": "Resources",
+    "documentation": "Documentation",
+    "github": "GitHub",
+    "issues": "Issues",
+    "community": "Community",
+    "license": "License",
+    "madeWith": "Made with ❤️ for designers and developers",
+    "copyright": "© 2025 Gripper. All rights reserved.",
+    "byAuthor": "By @isboyjc"
+  },
+  "nav": {
+    "features": "Features",
+    "shortcuts": "Shortcuts",
+    "installation": "Installation",
+    "github": "GitHub"
+  }
+}
