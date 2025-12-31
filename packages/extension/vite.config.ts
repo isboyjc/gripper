@@ -108,12 +108,11 @@ const firefoxManifest = {
     gecko: {
       id: 'gripper@sentenceend.com',
       strict_min_version: '112.0',
+      // Firefox 数据收集权限声明 - 不收集任何数据
+      data_collection_permissions: {
+        required: ['none']
+      },
     },
-  },
-  // Firefox 数据收集权限声明
-  data_collection_permissions: {
-    // 不收集任何数据
-    collect_data: false,
   },
 }
 
