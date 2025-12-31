@@ -38,8 +38,6 @@ const COLORS = {
 
 function getElementRect(element: Element): ElementRect {
   const rect = element.getBoundingClientRect()
-  const scrollX = window.scrollX
-  const scrollY = window.scrollY
 
   // 获取元素的实际可见区域（考虑overflow: hidden）
   const computed = window.getComputedStyle(element)
@@ -59,24 +57,25 @@ function getElementRect(element: Element): ElementRect {
     const width = element.clientWidth
     const height = element.clientHeight
 
-    // 计算框选位置：从border内侧开始（排除border）
+    // 计算框选位置：从border内侧开始（排除border）- 使用视口坐标
     return {
-      top: rect.top + scrollY + borderTop,
-      left: rect.left + scrollX + borderLeft,
+      top: rect.top + borderTop,
+      left: rect.left + borderLeft,
       width: width,
       height: height,
-      right: rect.left + scrollX + borderLeft + width,
-      bottom: rect.top + scrollY + borderTop + height,
+      right: rect.left + borderLeft + width,
+      bottom: rect.top + borderTop + height,
     }
   }
 
+  // 直接返回视口坐标，不加滚动偏移
   return {
-    top: rect.top + scrollY,
-    left: rect.left + scrollX,
+    top: rect.top,
+    left: rect.left,
     width: rect.width,
     height: rect.height,
-    right: rect.right + scrollX,
-    bottom: rect.bottom + scrollY,
+    right: rect.right,
+    bottom: rect.bottom,
   }
 }
 
@@ -197,7 +196,7 @@ export function ElementHighlight({ hoveredElement, selectedElement }: ElementHig
 
 // 标签样式：无圆角，字体稍大
 const labelBaseStyle: React.CSSProperties = {
-  position: 'absolute',
+  position: 'fixed',
   padding: '3px 6px',
   color: COLORS.labelText,
   fontSize: '11px',
@@ -215,7 +214,7 @@ const labelBaseStyle: React.CSSProperties = {
 
 // 尺寸标签样式
 const sizeBaseStyle: React.CSSProperties = {
-  position: 'absolute',
+  position: 'fixed',
   padding: '2px 5px',
   color: COLORS.labelText,
   fontSize: '10px',
@@ -234,7 +233,7 @@ function HoverHighlight({ rect, element, boxModel }: { rect: ElementRect; elemen
     <>
       {boxModel && <MarginPaddingOverlay rect={rect} boxModel={boxModel} isHover />}
       <div style={{
-        position: 'absolute', top: rect.top, left: rect.left, width: rect.width, height: rect.height,
+        position: 'fixed', top: rect.top, left: rect.left, width: rect.width, height: rect.height,
         pointerEvents: 'none', zIndex: 2147483640,
         border: `1px solid ${COLORS.hoverBorder}`, backgroundColor: COLORS.hoverBg, boxSizing: 'border-box',
       }} />
@@ -256,7 +255,7 @@ function SelectHighlight({ rect, edgeDistances }: { rect: ElementRect; edgeDista
   return (
     <>
       <div style={{
-        position: 'absolute', top: rect.top, left: rect.left, width: rect.width, height: rect.height,
+        position: 'fixed', top: rect.top, left: rect.left, width: rect.width, height: rect.height,
         pointerEvents: 'none', zIndex: 2147483644,
         border: `1px solid ${COLORS.selectBorder}`, backgroundImage: stripePattern, boxSizing: 'border-box',
       }} />
@@ -270,23 +269,20 @@ function SelectHighlight({ rect, edgeDistances }: { rect: ElementRect; edgeDista
 }
 
 function GuideLines({ rect, viewportSize }: { rect: ElementRect; viewportSize: { width: number; height: number } }) {
-  const scrollX = window.scrollX, scrollY = window.scrollY
-  const pageWidth = Math.max(document.documentElement.scrollWidth, document.body.scrollWidth, viewportSize.width)
-  const pageHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, viewportSize.height)
-  const lineStyle: React.CSSProperties = { position: 'absolute', pointerEvents: 'none', zIndex: 2147483638 }
+  const lineStyle: React.CSSProperties = { position: 'fixed', pointerEvents: 'none', zIndex: 2147483638 }
   const dashedH = { backgroundImage: `repeating-linear-gradient(90deg, ${COLORS.guideLine} 0, ${COLORS.guideLine} 3px, transparent 3px, transparent 6px)` }
   const dashedV = { backgroundImage: `repeating-linear-gradient(180deg, ${COLORS.guideLine} 0, ${COLORS.guideLine} 3px, transparent 3px, transparent 6px)` }
 
   return (
     <>
-      <div style={{ ...lineStyle, top: scrollY, left: rect.left, width: '1px', height: rect.top - scrollY, ...dashedV }} />
-      <div style={{ ...lineStyle, top: scrollY, left: rect.right, width: '1px', height: rect.top - scrollY, ...dashedV }} />
-      <div style={{ ...lineStyle, top: rect.bottom, left: rect.left, width: '1px', height: pageHeight - rect.bottom, ...dashedV }} />
-      <div style={{ ...lineStyle, top: rect.bottom, left: rect.right, width: '1px', height: pageHeight - rect.bottom, ...dashedV }} />
-      <div style={{ ...lineStyle, top: rect.top, left: scrollX, width: rect.left - scrollX, height: '1px', ...dashedH }} />
-      <div style={{ ...lineStyle, top: rect.bottom, left: scrollX, width: rect.left - scrollX, height: '1px', ...dashedH }} />
-      <div style={{ ...lineStyle, top: rect.top, left: rect.right, width: pageWidth - rect.right, height: '1px', ...dashedH }} />
-      <div style={{ ...lineStyle, top: rect.bottom, left: rect.right, width: pageWidth - rect.right, height: '1px', ...dashedH }} />
+      <div style={{ ...lineStyle, top: 0, left: rect.left, width: '1px', height: rect.top, ...dashedV }} />
+      <div style={{ ...lineStyle, top: 0, left: rect.right, width: '1px', height: rect.top, ...dashedV }} />
+      <div style={{ ...lineStyle, top: rect.bottom, left: rect.left, width: '1px', height: Math.max(0, viewportSize.height - rect.bottom), ...dashedV }} />
+      <div style={{ ...lineStyle, top: rect.bottom, left: rect.right, width: '1px', height: Math.max(0, viewportSize.height - rect.bottom), ...dashedV }} />
+      <div style={{ ...lineStyle, top: rect.top, left: 0, width: rect.left, height: '1px', ...dashedH }} />
+      <div style={{ ...lineStyle, top: rect.bottom, left: 0, width: rect.left, height: '1px', ...dashedH }} />
+      <div style={{ ...lineStyle, top: rect.top, left: rect.right, width: Math.max(0, viewportSize.width - rect.right), height: '1px', ...dashedH }} />
+      <div style={{ ...lineStyle, top: rect.bottom, left: rect.right, width: Math.max(0, viewportSize.width - rect.right), height: '1px', ...dashedH }} />
     </>
   )
 }
@@ -313,15 +309,13 @@ function SpacingBlock({ top, left, width, height, value, type, zIndex }: { top: 
   const isMargin = type === 'margin'
   const showValue = (width >= 18 && height >= 12) || (width >= 12 && height >= 18)
   return (
-    <div style={{ position: 'absolute', top, left, width, height, backgroundColor: isMargin ? COLORS.marginBg : COLORS.paddingBg, pointerEvents: 'none', zIndex, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div style={{ position: 'fixed', top, left, width, height, backgroundColor: isMargin ? COLORS.marginBg : COLORS.paddingBg, pointerEvents: 'none', zIndex, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       {showValue && value > 0 && <span style={{ fontSize: '9px', fontFamily: 'ui-monospace, monospace', fontWeight: 600, color: isMargin ? COLORS.marginText : COLORS.paddingText }}>{Math.round(value)}</span>}
     </div>
   )
 }
 
 function EdgeDistanceLabels({ rect, distances }: { rect: ElementRect; distances: { top: number; right: number; bottom: number; left: number } }) {
-  const scrollX = window.scrollX, scrollY = window.scrollY
-  const viewTop = rect.top - scrollY, viewLeft = rect.left - scrollX, viewRight = rect.right - scrollX
   const labelStyle: React.CSSProperties = { position: 'fixed', padding: '1px 4px', borderRadius: 0, backgroundColor: COLORS.distanceBg, color: COLORS.distanceText, fontSize: '10px', fontFamily: 'ui-monospace, monospace', fontWeight: 500, whiteSpace: 'nowrap', lineHeight: '1.2', zIndex: 2147483646, pointerEvents: 'none' }
   const lineStyle: React.CSSProperties = { position: 'fixed', backgroundColor: COLORS.distanceBg, pointerEvents: 'none', zIndex: 2147483646 }
 
@@ -329,20 +323,20 @@ function EdgeDistanceLabels({ rect, distances }: { rect: ElementRect; distances:
     <>
       {distances.left > 10 && (
         <>
-          <div style={{ ...lineStyle, top: viewTop + rect.height / 2, left: 0, width: viewLeft, height: '1px' }} />
-          <div style={{ ...labelStyle, top: viewTop + rect.height / 2 - 9, left: viewLeft / 2 - 12 }}>{distances.left}</div>
+          <div style={{ ...lineStyle, top: rect.top + rect.height / 2, left: 0, width: rect.left, height: '1px' }} />
+          <div style={{ ...labelStyle, top: rect.top + rect.height / 2 - 9, left: rect.left / 2 - 12 }}>{distances.left}</div>
         </>
       )}
       {distances.top > 10 && (
         <>
-          <div style={{ ...lineStyle, top: 0, left: viewLeft + rect.width / 2, width: '1px', height: viewTop }} />
-          <div style={{ ...labelStyle, top: viewTop / 2 - 9, left: viewLeft + rect.width / 2 - 12 }}>{distances.top}</div>
+          <div style={{ ...lineStyle, top: 0, left: rect.left + rect.width / 2, width: '1px', height: rect.top }} />
+          <div style={{ ...labelStyle, top: rect.top / 2 - 9, left: rect.left + rect.width / 2 - 12 }}>{distances.top}</div>
         </>
       )}
       {distances.right > 10 && (
         <>
-          <div style={{ ...lineStyle, top: viewTop + rect.height / 2, left: viewRight, width: distances.right, height: '1px' }} />
-          <div style={{ ...labelStyle, top: viewTop + rect.height / 2 - 9, right: distances.right / 2 - 12 }}>{distances.right}</div>
+          <div style={{ ...lineStyle, top: rect.top + rect.height / 2, left: rect.right, width: distances.right, height: '1px' }} />
+          <div style={{ ...labelStyle, top: rect.top + rect.height / 2 - 9, right: distances.right / 2 - 12 }}>{distances.right}</div>
         </>
       )}
     </>
@@ -350,8 +344,8 @@ function EdgeDistanceLabels({ rect, distances }: { rect: ElementRect; distances:
 }
 
 function DistanceLines({ distance }: { distance: { horizontal: { startX: number; startY: number; endX: number; endY: number; value: number; labelX: number; labelY: number } | null; vertical: { startX: number; startY: number; endX: number; endY: number; value: number; labelX: number; labelY: number } | null } }) {
-  const lineStyle: React.CSSProperties = { position: 'absolute', backgroundColor: COLORS.distanceBg, pointerEvents: 'none', zIndex: 2147483647 }
-  const labelStyle: React.CSSProperties = { position: 'absolute', padding: '2px 5px', borderRadius: 0, backgroundColor: COLORS.distanceBg, color: COLORS.distanceText, fontSize: '10px', fontFamily: 'ui-monospace, monospace', fontWeight: 600, whiteSpace: 'nowrap', lineHeight: '1.3', zIndex: 2147483647, pointerEvents: 'none' }
+  const lineStyle: React.CSSProperties = { position: 'fixed', backgroundColor: COLORS.distanceBg, pointerEvents: 'none', zIndex: 2147483647 }
+  const labelStyle: React.CSSProperties = { position: 'fixed', padding: '2px 5px', borderRadius: 0, backgroundColor: COLORS.distanceBg, color: COLORS.distanceText, fontSize: '10px', fontFamily: 'ui-monospace, monospace', fontWeight: 600, whiteSpace: 'nowrap', lineHeight: '1.3', zIndex: 2147483647, pointerEvents: 'none' }
 
   return (
     <>
