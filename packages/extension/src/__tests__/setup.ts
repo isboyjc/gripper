@@ -28,9 +28,6 @@ const chromeMock = {
       addListener: vi.fn(),
     },
   },
-  scripting: {
-    executeScript: vi.fn(),
-  },
 }
 
 // @ts-expect-error - Mock chrome API
