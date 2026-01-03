@@ -36,9 +36,18 @@ export function Installation() {
             </div>
             <h3 className="mb-4 text-xl font-semibold">{t("fromStore")}</h3>
             <div className="space-y-2 text-sm text-muted-foreground">
-              <p>Chrome Web Store: Coming Soon</p>
-              <p>Firefox Add-ons: Coming Soon</p>
-              <p>Edge Add-ons: Coming Soon</p>
+              <p>{t("chromeStore")}</p>
+              <p>{t("firefoxStore")}</p>
+              <p>
+                <a
+                  href="https://microsoftedge.microsoft.com/addons/detail/gripper-devtools-for-de/pannoklocjjbimmifjanjchpbfonbkhn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline"
+                >
+                  {t("edgeStore")}
+                </a>
+              </p>
             </div>
           </motion.div>
 

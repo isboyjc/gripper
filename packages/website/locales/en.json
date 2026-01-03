@@ -82,7 +82,10 @@
     "step1": "Clone the repository",
     "step2": "Install dependencies",
     "step3": "Build the extension",
-    "step4": "Load in browser"
+    "step4": "Load in browser",
+    "chromeStore": "Chrome Web Store: Coming Soon",
+    "firefoxStore": "Firefox Add-ons: Coming Soon",
+    "edgeStore": "Edge Add-ons: Available Now"
   },
   "footer": {
     "description": "A powerful browser extension for developers and designers",

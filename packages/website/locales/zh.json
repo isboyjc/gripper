@@ -82,7 +82,10 @@
     "step1": "克隆仓库",
     "step2": "安装依赖",
     "step3": "构建扩展",
-    "step4": "在浏览器中加载"
+    "step4": "在浏览器中加载",
+    "chromeStore": "Chrome Web Store: 即将推出",
+    "firefoxStore": "Firefox Add-ons: 即将推出",
+    "edgeStore": "Edge Add-ons: 立即下载"
   },
   "footer": {
     "description": "一款为开发者和设计师打造的强大浏览器扩展",
