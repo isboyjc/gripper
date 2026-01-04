@@ -38,10 +38,9 @@ export function Hero() {
     },
     {
       id: 'firefox',
-      href: '#',
+      href: 'https://addons.mozilla.org/en-US/firefox/addon/gripper-devtools-for-designers',
       label: t("downloadFirefox"),
       icon: <FirefoxIcon size={20} className="h-5 w-5" />,
-      comingSoon: true,
     },
   ];
 

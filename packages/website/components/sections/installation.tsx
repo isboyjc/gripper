@@ -37,7 +37,16 @@ export function Installation() {
             <h3 className="mb-4 text-xl font-semibold">{t("fromStore")}</h3>
             <div className="space-y-2 text-sm text-muted-foreground">
               <p>{t("chromeStore")}</p>
-              <p>{t("firefoxStore")}</p>
+              <p>
+                <a
+                  href="https://addons.mozilla.org/en-US/firefox/addon/gripper-devtools-for-designers"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline"
+                >
+                  {t("firefoxStore")}
+                </a>
+              </p>
               <p>
                 <a
                   href="https://microsoftedge.microsoft.com/addons/detail/gripper-devtools-for-de/pannoklocjjbimmifjanjchpbfonbkhn"
