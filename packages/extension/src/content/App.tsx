@@ -675,7 +675,6 @@ export function App({ shadowRoot }: AppProps) {
     const handleStorageChange = (changes: { [key: string]: chrome.storage.StorageChange }, areaName: string) => {
       if (areaName === 'local' && changes['gripper-screenshot-settings']) {
         try {
-          // Zustand 使用 Chrome Storage 时会存储 JSON 字符串
           const newValue = changes['gripper-screenshot-settings'].newValue
           if (typeof newValue === 'string') {
             const parsed = JSON.parse(newValue) as {
@@ -687,11 +686,23 @@ export function App({ shadowRoot }: AppProps) {
               }
             }
             if (parsed?.state) {
-              // 更新 Zustand store 以同步来自 popup 的设置变更
-              screenshotSettings.setShowWatermark(parsed.state.showWatermark)
-              screenshotSettings.setIncludeTimestamp(parsed.state.includeTimestamp)
-              screenshotSettings.setExpandCaptureArea(parsed.state.expandCaptureArea)
-              screenshotSettings.setShowGridOverlay(parsed.state.showGridOverlay)
+              // 获取当前 store 状态，只有值真正变化时才更新
+              // 避免无限循环：storage 变化 -> 更新 store -> persist 写入 -> 再次触发
+              const currentState = useScreenshotStore.getState()
+              const { showWatermark, includeTimestamp, expandCaptureArea, showGridOverlay } = parsed.state
+
+              if (currentState.showWatermark !== showWatermark) {
+                currentState.setShowWatermark(showWatermark)
+              }
+              if (currentState.includeTimestamp !== includeTimestamp) {
+                currentState.setIncludeTimestamp(includeTimestamp)
+              }
+              if (currentState.expandCaptureArea !== expandCaptureArea) {
+                currentState.setExpandCaptureArea(expandCaptureArea)
+              }
+              if (currentState.showGridOverlay !== showGridOverlay) {
+                currentState.setShowGridOverlay(showGridOverlay)
+              }
             }
           }
         } catch (error) {
@@ -702,7 +713,7 @@ export function App({ shadowRoot }: AppProps) {
 
     chrome.storage.onChanged.addListener(handleStorageChange)
     return () => chrome.storage.onChanged.removeListener(handleStorageChange)
-  }, [screenshotSettings])
+  }, [])
 
   useEffect(() => {
     const container = shadowRoot.querySelector('.gripper-container')
