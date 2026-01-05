@@ -1,5 +1,11 @@
 # @gripper/extension
 
+## 1.0.4
+
+### Patch Changes
+
+- c259860: Update extension settings synchronization logic to prevent infinite loops; improve state management in response to storage changes
+
 ## 1.0.3
 
 ### Patch Changes
