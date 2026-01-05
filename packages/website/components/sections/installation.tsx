@@ -36,7 +36,16 @@ export function Installation() {
             </div>
             <h3 className="mb-4 text-xl font-semibold">{t("fromStore")}</h3>
             <div className="space-y-2 text-sm text-muted-foreground">
-              <p>{t("chromeStore")}</p>
+              <p>
+                <a
+                  href="https://chromewebstore.google.com/detail/gripper-devtools-for-desi/agdhjedbmiogeekikhifhahgelhahbhb"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline"
+                >
+                  {t("chromeStore")}
+                </a>
+              </p>
               <p>
                 <a
                   href="https://addons.mozilla.org/en-US/firefox/addon/gripper-devtools-for-designers"

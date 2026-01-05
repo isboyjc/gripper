@@ -25,10 +25,9 @@ export function Hero() {
   const browserButtons: BrowserButton[] = [
     {
       id: 'chrome',
-      href: 'https://chrome.google.com/webstore',
+      href: 'https://chromewebstore.google.com/detail/gripper-devtools-for-desi/agdhjedbmiogeekikhifhahgelhahbhb',
       label: t("downloadChrome"),
       icon: <ChromeIcon size={20} className="h-5 w-5" />,
-      comingSoon: true,
     },
     {
       id: 'edge',
